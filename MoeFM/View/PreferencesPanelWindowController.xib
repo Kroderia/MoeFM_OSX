@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PreferencesPanelWindowController">
+            <connections>
+                <outlet property="authorizeInfoLabel" destination="MJR-IB-GWX" id="tth-5I-bYT"/>
+                <outlet property="checkPresentNotification" destination="9lu-WH-Qii" id="Mz0-cY-SJF"/>
+                <outlet property="checkUseNotification" destination="46n-iy-zJo" id="CyO-eH-KOZ"/>
+                <outlet property="dismissAuthorizeBtn" destination="MNg-nX-lsN" id="0Wb-XQ-qs2"/>
+                <outlet property="doAuthorizeBtn" destination="6Rn-SZ-5aM" id="KK7-Sx-LAM"/>
+                <outlet property="preferencesSwitchView" destination="WzL-4b-Vs5" id="EaB-AY-4nE"/>
+                <outlet property="preferencesSwitcher" destination="1S4-mq-Aek" id="xPf-lL-pLu"/>
+                <outlet property="window" destination="1" id="3"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="偏好设置" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="360" height="120"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1366" height="746"/>
+            <view key="contentView" id="2">
+                <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <tabView fixedFrame="YES" type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="WzL-4b-Vs5">
+                        <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <tabViewItems>
+                            <tabViewItem label="1" identifier="" id="Th8-Wd-Q7t">
+                                <view key="view" id="MKw-eL-Vgt">
+                                    <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9lu-WH-Qii">
+                                            <rect key="frame" x="34" y="37" width="184" height="28"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="右上角弹出消息提醒" bezelStyle="regularSquare" imagePosition="left" alignment="center" state="on" inset="2" id="ekG-SP-ykN">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" size="18" name="STHeitiSC-Light"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="didCheckPresentNotification:" target="-2" id="ewI-Nt-NYj"/>
+                                            </connections>
+                                        </button>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46n-iy-zJo">
+                                            <rect key="frame" x="18" y="56" width="200" height="46"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="使用消息中心提醒" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="L3F-u6-G2l">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" size="20" name="STHeitiSC-Light"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="didCheckUseNotification:" target="-2" id="6vP-tR-DbV"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="2" identifier="" id="Lcc-Tq-CL5">
+                                <view key="view" ambiguous="YES" id="fol-6K-gAE">
+                                    <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MJR-IB-GWX">
+                                            <rect key="frame" x="36" y="76" width="288" height="24"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="当前未授权" id="cvz-DY-j3a">
+                                                <font key="font" size="20" name="STHeitiSC-Light"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Rn-SZ-5aM">
+                                            <rect key="frame" x="36" y="24" width="120" height="42"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="bevel" title="授权" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SwN-Mf-fp3">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system" size="20"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="showLoginWindow:" target="-2" id="QPJ-wc-iXi"/>
+                                            </connections>
+                                        </button>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MNg-nX-lsN">
+                                            <rect key="frame" x="204" y="24" width="120" height="42"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="bevel" title="取消授权" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oFi-wG-6aF">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system" size="20"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="dismissAuthorize:" target="-2" id="ECV-dY-Rwt"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                        </tabViewItems>
+                    </tabView>
+                </subviews>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="E0793995-6895-4282-A45F-6FA5A4792265" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="1S4-mq-Aek">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="3758495C-391A-457D-AEE2-826E6B15022C" label="通用" paletteLabel="General" image="NSAdvanced" selectable="YES" id="aQ3-Jh-o4A">
+                        <connections>
+                            <action selector="switchView:" target="-2" id="pEk-hH-we1"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="73390C82-C38D-4486-8DBC-46270CFF6771" label="账号" paletteLabel="Account" tag="1" image="NSActionTemplate" selectable="YES" id="kUF-9e-n0w">
+                        <connections>
+                            <action selector="switchView:" target="-2" id="6Np-Mp-5dE"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="aQ3-Jh-o4A"/>
+                    <toolbarItem reference="kUF-9e-n0w"/>
+                </defaultToolbarItems>
+                <connections>
+                    <outlet property="delegate" destination="-2" id="I7f-iy-boe"/>
+                </connections>
+            </toolbar>
+            <connections>
+                <outlet property="delegate" destination="-2" id="4"/>
+            </connections>
+        </window>
+        <userDefaultsController representsSharedInstance="YES" id="aR1-lL-Vl0"/>
+    </objects>
+    <resources>
+        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSAdvanced" width="32" height="32"/>
+    </resources>
+</document>

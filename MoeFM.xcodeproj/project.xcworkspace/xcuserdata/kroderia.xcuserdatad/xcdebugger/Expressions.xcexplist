@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[PlayerViewController updateSongTimeSlider]:PlayerViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[PlayerViewController playerItemDuration]:PlayerViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[PlayerViewController songSeekTimeBy:]:PlayerViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "slider.doubleValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
