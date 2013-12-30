@@ -100,7 +100,7 @@
     [self.songAlbumText setAttributes:@{NSFontAttributeName: [NSFont systemFontOfSize:16]}];
     [self.songAlbumText setDistant:32.0f];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"cat" ofType:@"png"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"logo_512" ofType:@"png"];
     self.songCoverDefault = [[NSImage alloc] initWithContentsOfFile:path];
 
     [self playSong];

@@ -19,7 +19,7 @@
 static MoefmPlayer *instance = nil;
 
 + (MoefmPlayer*)sharedInstance {
-    if (!instance) {
+    if (instance == nil) {
         instance = [[super allocWithZone:NULL] init];
     }
     return instance;
@@ -102,6 +102,7 @@ static MoefmPlayer *instance = nil;
 }
 
 - (BOOL)isFav {
+    NSLog(@"%@", self.song);
     return ([self.song objectForKey:@"fav_sub"] != nil);
 }
 

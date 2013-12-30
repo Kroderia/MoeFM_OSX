@@ -28,7 +28,7 @@
                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="kbg-Tc-Zzw">
                     <rect key="frame" x="0.0" y="6" width="96" height="96"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="cat" id="rbK-jc-NBc"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logo_512" id="rbK-jc-NBc"/>
                 </imageView>
                 <box autoresizesSubviews="NO" title="SongProgressBox" boxType="custom" borderType="none" id="uMS-3E-Jew" customClass="SongProgressBar">
                     <rect key="frame" x="0.0" y="0.0" width="400" height="8"/>
@@ -116,6 +116,6 @@
         <image name="btn_play" width="48" height="48"/>
         <image name="btn_tofav" width="48" height="48"/>
         <image name="btn_totrash" width="48" height="48"/>
-        <image name="cat" width="277" height="270"/>
+        <image name="logo_512" width="512" height="512"/>
     </resources>
 </document>
