@@ -7,7 +7,6 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesPanelWindowController">
             <connections>
                 <outlet property="authorizeInfoLabel" destination="MJR-IB-GWX" id="tth-5I-bYT"/>
-                <outlet property="checkPresentNotification" destination="9lu-WH-Qii" id="Mz0-cY-SJF"/>
                 <outlet property="checkUseNotification" destination="46n-iy-zJo" id="CyO-eH-KOZ"/>
                 <outlet property="dismissAuthorizeBtn" destination="MNg-nX-lsN" id="0Wb-XQ-qs2"/>
                 <outlet property="doAuthorizeBtn" destination="6Rn-SZ-5aM" id="KK7-Sx-LAM"/>
@@ -33,21 +32,10 @@
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="1" identifier="" id="Th8-Wd-Q7t">
-                                <view key="view" id="MKw-eL-Vgt">
+                                <view key="view" ambiguous="YES" id="MKw-eL-Vgt">
                                     <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9lu-WH-Qii">
-                                            <rect key="frame" x="34" y="37" width="184" height="28"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="右上角弹出消息提醒" bezelStyle="regularSquare" imagePosition="left" alignment="center" state="on" inset="2" id="ekG-SP-ykN">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" size="18" name="STHeitiSC-Light"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="didCheckPresentNotification:" target="-2" id="ewI-Nt-NYj"/>
-                                            </connections>
-                                        </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46n-iy-zJo">
                                             <rect key="frame" x="18" y="56" width="200" height="46"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -63,7 +51,7 @@
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="2" identifier="" id="Lcc-Tq-CL5">
-                                <view key="view" ambiguous="YES" id="fol-6K-gAE">
+                                <view key="view" id="fol-6K-gAE">
                                     <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>

@@ -13,7 +13,12 @@
 @synthesize item;
 
 - (void)errorFavingSong {
-    [self errorLoadingSongInfo];
+    [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"进行操作时出错了, 重试一下吧..."];
+}
+
+
+- (void)errorTrashingSong {
+    [self errorFavingSong];
 }
 
 - (void)errorLoadingSongData {
@@ -21,11 +26,16 @@
 }
 
 - (void)errorLoadingSongInfo {
+    self.errorCounter += 1;
+    if (self.errorCounter > 5) {
+        [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"出错次数过多, 可能你的网络有问题. 检查后再点击播放吧."];
+        self.errorCounter = 0;
+        return;
+    }
+    
+    [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"载入歌曲时出错, 正在为你加载下一首"];
+    [[MoefmPlayer sharedInstance] playNextSong];
     [self.item setTitle:@"(￣皿￣)"];
-}
-
-- (void)errorTrashingSong {
-    [self errorLoadingSongInfo];
 }
 
 - (void)playerDidPausePlaying {
@@ -33,6 +43,7 @@
 }
 
 - (void)playerDidStartPlaying {
+    self.errorCounter = 0;
     [self.item setTitle:@"(ノﾟ∀ﾟ)ノ"];
 }
 

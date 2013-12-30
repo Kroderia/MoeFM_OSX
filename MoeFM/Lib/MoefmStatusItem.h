@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "MoefmPlayer.h"
+#import "EasyNotification.h"
 
 @interface MoefmStatusItem : NSObject<MoefmPlayerDelegate>
 
 @property (strong) NSStatusItem *item;
+@property int errorCounter;
 
 - (void)setMenu: (NSMenu*)menu;
 

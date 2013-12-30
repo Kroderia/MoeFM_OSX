@@ -16,6 +16,7 @@ static EasyNotification *instance = nil;
     if (! instance) {
         instance = [[super allocWithZone:NULL] init];
     }
+    
     return instance;
 }
 
@@ -33,19 +34,20 @@ static EasyNotification *instance = nil;
     }
     
     self = [super init];
+    
     if (self) {
-        [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+        self.center = [NSUserNotificationCenter defaultUserNotificationCenter];
     }
     
     return self;
 }
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"presentNotification"];
+    return NO;
 }
 
 - (BOOL)shouldUseNotification {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"useNotification"];
+    return ([[NSUserDefaults standardUserDefaults] boolForKey:@"useNotification"] == NSOnState);
 }
 
 
@@ -58,7 +60,8 @@ static EasyNotification *instance = nil;
     notification.title = title;
     notification.informativeText = message;
     
-    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+    [self.center deliverNotification:notification];
+    [self.center setDelegate:self];
 }
 
 @end

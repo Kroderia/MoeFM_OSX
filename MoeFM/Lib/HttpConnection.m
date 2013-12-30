@@ -38,6 +38,7 @@
     if (theConnection) {
         self.recvData = [[NSMutableData alloc] init];
     }
+    NSLog(@"%@", theUrl);
 }
 
 

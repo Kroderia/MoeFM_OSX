@@ -46,30 +46,12 @@
 
 
 - (void)initUserPreferencesCheck {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    
-    self.checkUseNotification.state = [ud integerForKey:@"useNotification"];
-    self.checkPresentNotification.state = [ud integerForKey:@"presentNotification"];
-    if (self.checkUseNotification.state == NSOffState) {
-        [self.checkPresentNotification setEnabled:NO];
-    }
+    self.checkUseNotification.state = [[NSUserDefaults standardUserDefaults] integerForKey:@"useNotification"];
 }
 
 
 - (IBAction)didCheckUseNotification:(NSButton *)sender {
-    if (sender.state == NSOffState) {
-        [self.checkPresentNotification setState:NSOffState];
-        [self.checkPresentNotification setEnabled:NO];
-        [[NSUserDefaults standardUserDefaults] setInteger:NSOffState forKey:@"presentNotification"];
-    } else {
-        [self.checkPresentNotification setEnabled:YES];
-    }
-    
     [[NSUserDefaults standardUserDefaults] setInteger:sender.state forKey:@"useNotification"];
-}
-
-- (IBAction)didCheckPresentNotification:(NSButton *)sender {
-    [[NSUserDefaults standardUserDefaults] setInteger:sender.state forKey:@"presentNotification"];
 }
 
 - (IBAction)switchView:(NSToolbarItem*)sender {

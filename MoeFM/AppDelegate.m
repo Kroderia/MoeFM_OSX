@@ -21,6 +21,7 @@
     
     self.statusItem = [[MoefmStatusItem alloc] init];
     [self.statusItem setMenu:self.statusMenu];
+    [self resetPlayBtn];
     
     self.moefmPlayer = [MoefmPlayer sharedInstance];
     
@@ -133,6 +134,25 @@
 - (IBAction)clickTopAction:(id)sender {
     self.isTop = ! self.isTop;
     [self resetIsTop];
+}
+
+- (IBAction)clickPlayBtn:(id)sender {
+    MoefmPlayer *moefmPlayer = [MoefmPlayer sharedInstance];
+    if (moefmPlayer.isPlaying) {
+        [moefmPlayer pause];
+    } else {
+        [moefmPlayer play];
+    }
+    
+    [self resetPlayBtn];
+}
+
+- (void)resetPlayBtn {
+    if ([MoefmPlayer sharedInstance].isPlaying) {
+        [[self.statusMenu itemWithTitle:@"播放"] setTitle:@"暂停"];
+    } else {
+        [[self.statusMenu itemWithTitle:@"暂停"] setTitle:@"播放"];
+    }
 }
 
 - (void)resetIsTop {

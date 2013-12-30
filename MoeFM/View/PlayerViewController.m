@@ -19,27 +19,19 @@
 }
 
 - (void)errorLoadingSongInfo {
-    self.errorCounter += 1;
-    if (self.errorCounter > 5) {
-        [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"出错次数过多, 可能你的网络有问题. 检查后再点击播放吧."];
-        self.errorCounter = 0;
-        return;
-    }
-    
-    [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"载入歌曲时出错, 正在为你加载下一首"];
-    [self playSong];
+    return;
 }
 
 - (void)errorLoadingSongData {
-    [self errorLoadingSongInfo];
+    return;
 }
 
 - (void)errorTrashingSong {
-    [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"抛弃歌曲时出错了, 重试一下吧..."];
+    return;
 }
 
 - (void)errorFavingSong {
-    [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"执行操作时出错了, 重试一下吧..."];
+    return;
 }
 
 - (void)playerDidFinishPlaying {
@@ -68,12 +60,6 @@
 }
 
 - (void)playerUpdatePlayingTime {
-    if (self.moefmPlayer.currentItem.status == AVPlayerItemStatusFailed) {
-        [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"载入歌曲时出错, 正在为你加载下一首"];
-        [self.moefmPlayer playNextSong];
-        return;
-    }
-
     double time = CMTimeGetSeconds([self.moefmPlayer currentTime]);
     double duration = [self playerItemDuration];
     int left = (int)(duration - time);
@@ -103,15 +89,8 @@
     NSString *path = [[NSBundle mainBundle] pathForResource:@"logo_512" ofType:@"png"];
     self.songCoverDefault = [[NSImage alloc] initWithContentsOfFile:path];
 
-    [self playSong];
-}
-
-
-- (void)playSong {
-    [self showLoadingStatus];
     [self.moefmPlayer playNextSong];
 }
-
 
 - (void)showLoadingStatus {
     self.songCoverImageView.image = self.songCoverDefault;
@@ -119,7 +98,6 @@
     [self.songAlbumText setString:@"......" Speed:0.05f];
     [self.favBtn setImage:[NSImage imageNamed:@"btn_tofav.png"]];
 }
-
 
 - (void)showSongStatus {
     NSDictionary *song = self.moefmPlayer.song;
@@ -133,7 +111,9 @@
     [self.songAlbumText setString:[song objectForKey:@"wiki_title"] Speed: 0.05f];
     [self resetFavBtn];
     
-    [[EasyNotification instance] sendNotificationWithTitle:[song objectForKey:@"sub_title"] Message:[song objectForKey:@"wiki_title"]];
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"alwaysTop"] == NSOffState) {
+        [[EasyNotification instance] sendNotificationWithTitle:[song objectForKey:@"sub_title"] Message:[song objectForKey:@"wiki_title"]];
+    }
 }
 
 - (void)resetFavBtn {
@@ -151,7 +131,7 @@
 }
 
 - (void)itemDidFinishPlaying: (NSNotification*)notification {
-    [self playSong];
+    [self.moefmPlayer playNextSong];
 }
 
 - (double)playerItemDuration {

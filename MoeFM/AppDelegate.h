@@ -36,5 +36,6 @@
 - (IBAction)clickFavBtn:(id)sender;
 - (IBAction)clickTrashBtn:(id)sender;
 - (IBAction)clickTopAction:(id)sender;
+- (IBAction)clickPlayBtn:(id)sender;
 
 @end

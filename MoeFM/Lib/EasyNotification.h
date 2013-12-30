@@ -10,6 +10,8 @@
 
 @interface EasyNotification : NSObject<NSUserNotificationCenterDelegate>
 
+@property (weak) NSUserNotificationCenter *center;
+
 + (EasyNotification*)instance;
 - (void)sendNotificationWithTitle: (NSString*)title Message: (NSString*)message;
 

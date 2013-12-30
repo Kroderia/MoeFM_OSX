@@ -91,6 +91,12 @@
         <customObject id="420" customClass="NSFontManager"/>
         <menu autoenablesItems="NO" id="fpH-l9-X9J">
             <items>
+                <menuItem title="播放" id="OgV-1C-eQr">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="clickPlayBtn:" target="494" id="Yeh-Fb-6Yi"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="下一首" id="ztS-Lm-u7q">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
