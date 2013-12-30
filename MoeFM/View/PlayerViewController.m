@@ -117,7 +117,6 @@
     self.songCoverImageView.image = self.songCoverDefault;
     [self.songTitleText setString:@"傻猫载入中..." Speed: 0.1f];
     [self.songAlbumText setString:@"......" Speed:0.05f];
-    self.songProgressTimer.stringValue = @"-00:00";
     [self.favBtn setImage:[NSImage imageNamed:@"btn_tofav.png"]];
 }
 
