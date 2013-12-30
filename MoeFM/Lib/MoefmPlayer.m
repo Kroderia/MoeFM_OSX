@@ -71,6 +71,10 @@ static MoefmPlayer *instance = nil;
 }
 
 - (void)playNextSong {
+    if (self.isLoading) {
+        return;
+    }
+    
     self.isLoading = YES;
     [self pause];
     
