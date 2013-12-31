@@ -10,20 +10,21 @@
 
 @protocol MoefmPlayerDelegate <NSObject>
 
-@required
+@optional
 - (void)errorLoadingSongInfo;
-- (void)errorLoadingSongData;
 - (void)errorTrashingSong;
 - (void)errorFavingSong;
 
-@optional
 - (void)songInfoDidLoaded;
 - (void)playerUpdatePlayingTime;
 - (void)playerGoingToPlayNext;
-- (void)playerDidFinishPlaying;
 - (void)playerDidStartPlaying;
 - (void)playerDidPausePlaying;
 - (void)playerDidFinishTrashing;
 - (void)playerDidFinishFaving;
+
+- (void)playerDidFinishPlaying;
+- (void)playerDidStalled;
+- (void)playerDidFailedToPlayToEndTime;
 
 @end

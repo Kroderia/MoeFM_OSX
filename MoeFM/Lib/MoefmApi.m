@@ -74,10 +74,13 @@
 
 - (void)getPlaylistOf:(int)count {
     self.todo = @selector(parsePlaylistFromData:);
+    NSString *theUrl;
     
-    NSString *getUrl = [self.plistDict objectForKey:@"getUrl"];
-    NSString *apiUrl = [self.plistDict objectForKey:@"playlistApiUrl"];
-    NSString *theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d", getUrl, apiUrl, self.apiKey, count];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"] == nil) {
+        theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d", [self.plistDict objectForKey:@"getUrl"], [self.plistDict objectForKey:@"playlistApiUrl"], self.apiKey, count];
+    } else {
+        theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d&%@", [self.plistDict objectForKey:@"ogetUrl"], [self.plistDict objectForKey:@"playlistApiUrl"], self.apiKey, count, [self oauthString]];
+    }
     
     HttpConnection *theConnection = [[HttpConnection alloc] init];
     [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
@@ -104,10 +107,9 @@
 - (void)sendFavRequestAction: (NSString*)action Type: (int)type SubId: (int)subId {
     self.todo = @selector(parseStandardApiInfoFromData:);
     
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *ogetUrl = [self.plistDict objectForKey:@"ogetUrl"];
     NSString *apiUrl = [self.plistDict objectForKey:[NSString stringWithFormat:@"%@FavApiUrl", action]];
-    NSString *theUrl = [NSString stringWithFormat:@"%@?url=%@&access_token=%@&access_token_secret=%@&fav_obj_type=song&fav_type=%d&fav_obj_id=%d", ogetUrl, apiUrl, [ud stringForKey:@"accessToken"], [ud stringForKey:@"accessTokenSecret" ], type, subId];
+    NSString *theUrl = [NSString stringWithFormat:@"%@?url=%@&%@&fav_obj_type=song&fav_type=%d&fav_obj_id=%d", ogetUrl, apiUrl, [self oauthString], type, subId];
     
     HttpConnection *theConnection = [[HttpConnection alloc] init];
     [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
@@ -134,6 +136,10 @@
 
 - (void)addTrashSongBySubId:(int)subId {
     [self sendFavRequestAction:@"add" Type:2 SubId:subId];
+}
+
+- (NSString*)oauthString {
+    return [NSString stringWithFormat:@"access_token=%@&access_token_secret=%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"], [[NSUserDefaults standardUserDefaults] objectForKey:@"accessTokenSecret"]];
 }
 
 @end

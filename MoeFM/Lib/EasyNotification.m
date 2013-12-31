@@ -43,7 +43,7 @@ static EasyNotification *instance = nil;
 }
 
 - (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification {
-    return NO;
+    return YES;
 }
 
 - (BOOL)shouldUseNotification {

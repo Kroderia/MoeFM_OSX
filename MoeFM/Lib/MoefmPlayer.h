@@ -32,4 +32,8 @@
 - (void)addFav;
 - (void)deleteFav;
 
+- (double)currentPlayTime;
+- (double)currentLoadTime;
+- (double)currentStreamTime;
+
 @end

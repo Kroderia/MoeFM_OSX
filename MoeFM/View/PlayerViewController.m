@@ -18,30 +18,8 @@
     [self showSongStatus];
 }
 
-- (void)errorLoadingSongInfo {
-    return;
-}
-
-- (void)errorLoadingSongData {
-    return;
-}
-
-- (void)errorTrashingSong {
-    return;
-}
-
-- (void)errorFavingSong {
-    return;
-}
-
-- (void)playerDidFinishPlaying {
-    [self.moefmPlayer playNextSong];
-}
-
 - (void)playerDidStartPlaying {
     [self.playBtn setImage:[NSImage imageNamed:@"btn_pause.png"]];
-    self.errorCounter = 0;
-    self.loadtimeoutCounter = 0;
 }
 
 - (void)playerDidPausePlaying {
@@ -52,36 +30,19 @@
     [self showLoadingStatus];
 }
 
-- (void)playerDidFinishTrashing {
-    [self.moefmPlayer playNextSong];
-}
-
 - (void)playerDidFinishFaving {
     [self resetFavBtn];
 }
 
 - (void)playerUpdatePlayingTime {
-    double curtime = CMTimeGetSeconds([self.moefmPlayer currentTime]);
-    double duration = [self playerItemDuration];
-    int left = (int)(duration - curtime);
+    double duration = [self.moefmPlayer currentStreamTime];
+    double played = [self.moefmPlayer currentPlayTime];
+    double loaded = [self.moefmPlayer currentLoadTime];
+    int left = (int)(duration - played);
     
-    [self.songProgressBar setPlayedWidthOf:curtime / duration];
+    [self.songProgressBar setPlayedWidthOf:played / duration];
+    [self.songProgressBar setLoadedWidthOf:loaded / duration];
     self.songProgressTimer.stringValue = [NSString stringWithFormat:@"-%02d:%02d", left/60, left%60];
-
-    CMTimeRange range = [[[self.moefmPlayer currentItem].loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
-    double loadedtime = CMTimeGetSeconds(range.start) + CMTimeGetSeconds(range.duration);
-
-    [self.songProgressBar setLoadedWidthOf:loadedtime / duration];
-    
-    if (curtime == loadedtime) {
-        self.loadtimeoutCounter++;
-    } else {
-        self.loadtimeoutCounter = 0;
-    }
-    
-    if (self.loadtimeoutCounter > 10) {
-        [self.moefmPlayer playNextSong];
-    }
 }
 
 
@@ -90,7 +51,6 @@
     
     self.moefmPlayer = [MoefmPlayer sharedInstance];
     [self.moefmPlayer addDelegate:self];
-    self.errorCounter = 0;
     
     [self.songTitleText setAttributes:@{NSFontAttributeName: [NSFont systemFontOfSize:24]}];
     [self.songTitleText setDistant:48.0f];
@@ -113,7 +73,7 @@
 - (void)showSongStatus {
     NSDictionary *song = self.moefmPlayer.song;
     
-    int duration = ceil([self playerItemDuration]);
+    int duration = ceil([self.moefmPlayer currentStreamTime]);
     self.songProgressTimer.stringValue = [NSString stringWithFormat:@"-%02d:%02d", duration/60, duration%60];
     [self.songProgressBar resetProgress];
     
@@ -143,11 +103,6 @@
 
 - (void)itemDidFinishPlaying: (NSNotification*)notification {
     [self.moefmPlayer playNextSong];
-}
-
-- (double)playerItemDuration {
-// TODO: This time duration is not exactly correct
-    return [[self.moefmPlayer.song objectForKey:@"stream_length"] doubleValue];
 }
 
 - (IBAction)clickPlayBtn:(id)sender {

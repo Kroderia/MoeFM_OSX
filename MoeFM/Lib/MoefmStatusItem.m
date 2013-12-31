@@ -16,13 +16,8 @@
     [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"进行操作时出错了, 重试一下吧..."];
 }
 
-
 - (void)errorTrashingSong {
     [self errorFavingSong];
-}
-
-- (void)errorLoadingSongData {
-    [self errorLoadingSongInfo];
 }
 
 - (void)errorLoadingSongInfo {
@@ -34,7 +29,7 @@
     }
     
     [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"载入歌曲时出错, 正在为你加载下一首"];
-    [[MoefmPlayer sharedInstance] playNextSong];
+    [self.moefmPlayer playNextSong];
     [self.item setTitle:@"(￣皿￣)"];
 }
 
@@ -47,7 +42,20 @@
     [self.item setTitle:@"(ノﾟ∀ﾟ)ノ"];
 }
 
+- (void)playerDidFinishPlaying {
+    [self.moefmPlayer playNextSong];
+}
+
+- (void)playerDidStalled {
+    NSLog(@"STALL");
+}
+
+- (void)playerDidFailedToPlayToEndTime {
+    [self errorLoadingSongInfo];
+}
+
 - (void)playerDidFinishTrashing {
+    [self.moefmPlayer playNextSong];
 }
 
 - (void)playerDidFinishFaving {
@@ -62,7 +70,8 @@
     self = [super init];
     
     if (self) {
-        [[MoefmPlayer sharedInstance] addDelegate:self];
+        self.moefmPlayer = [MoefmPlayer sharedInstance];
+        [self.moefmPlayer addDelegate:self];
         self.item = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
         [self.item setHighlightMode:YES];
         [self.item setTitle:@"(ノﾟ∀ﾟ)ノ"];

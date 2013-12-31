@@ -87,7 +87,7 @@ static MoefmPlayer *instance = nil;
 - (void)loadSong: (NSArray*)playlist {
     if (playlist == nil) {
         self.isLoading = NO;
-        [self delegatePerformRequiredSelector:@selector(errorLoadingSongInfo)];
+        [self delegatePerformOptionalSelector:@selector(errorLoadingSongInfo)];
         return;
     }
     
@@ -97,6 +97,8 @@ static MoefmPlayer *instance = nil;
     AVPlayerItem *songItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:[self.song objectForKey:@"url"]]];
     
     [self delegateAddObserverWithSelector:@selector(playerDidFinishPlaying) Name:AVPlayerItemDidPlayToEndTimeNotification];
+    [self delegateAddObserverWithSelector:@selector(playerDidFailedToPlayToEndTime) Name:AVPlayerItemFailedToPlayToEndTimeNotification];
+    [self delegateAddObserverWithSelector:@selector(playerDidStalled) Name:AVPlayerItemPlaybackStalledNotification];
     
     [self replaceCurrentItemWithPlayerItem:songItem];
     [self play];
@@ -104,20 +106,12 @@ static MoefmPlayer *instance = nil;
     [self delegateAddTimeObserverWithSelector:@selector(playerUpdatePlayingTime)
                                         Timer:CMTimeMakeWithSeconds(1.0f, NSEC_PER_SEC)];
     
-    __unsafe_unretained typeof(self) weakSelf = self;
-    [self addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0f, NSEC_PER_SEC)
-                                       queue:NULL
-                                  usingBlock:^(CMTime time) {
-                                      if (weakSelf.currentItem.status == AVPlayerItemStatusFailed) {
-                                          [weakSelf delegatePerformRequiredSelector:@selector(errorLoadingSongData)];
-                                      }
-                                  }];
-    
     self.isLoading = NO;
 }
 
 - (BOOL)isFav {
-    return ([self.song objectForKey:@"fav_sub"] != nil);
+    id fav = [self.song objectForKey:@"fav_sub"];
+    return ((fav != nil) && (fav != [NSNull null]));
 }
 
 - (void)addTrash {
@@ -131,7 +125,7 @@ static MoefmPlayer *instance = nil;
     self.isTrashing = NO;
     
     if (response == nil) {
-        [self delegatePerformRequiredSelector:@selector(errorTrashingSong)];
+        [self delegatePerformOptionalSelector:@selector(errorTrashingSong)];
         return;
     }
     
@@ -152,11 +146,26 @@ static MoefmPlayer *instance = nil;
     [self.moefmApi deleteFavSongBySubId:[((NSNumber*)[self.song objectForKey:@"sub_id"]) intValue]];
 }
 
+- (double)currentPlayTime {
+    return CMTimeGetSeconds(self.currentTime);
+}
+
+- (double)currentLoadTime {
+    CMTimeRange range = [[self.currentItem.loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
+    double loadedtime = CMTimeGetSeconds(range.start) + CMTimeGetSeconds(range.duration);
+    
+    return loadedtime;
+}
+
+- (double)currentStreamTime {
+    return [[self.song objectForKey:@"stream_length"] doubleValue];
+}
+
 - (void)favResponse: (NSDictionary*)response {
     self.isFaving = NO;
     
     if ((response == nil) || ([response objectForKey:@"error"] != nil)) {
-        [self delegatePerformRequiredSelector:@selector(errorFavingSong)];
+        [self delegatePerformOptionalSelector:@selector(errorFavingSong)];
         return;
     }
     
@@ -178,19 +187,13 @@ static MoefmPlayer *instance = nil;
     [self.delegate addObject:delegate];
 }
 
-- (void)delegatePerformRequiredSelector: (SEL)selector {
+- (void)delegatePerformOptionalSelector: (SEL)selector {
     for (id<MoefmPlayerDelegate> entry in self.delegate) {
         if (entry == nil) {
             [self.delegate removeObject:entry];
             continue;
         }
         
-        [entry performSelector:selector];
-    }
-}
-
-- (void)delegatePerformOptionalSelector: (SEL)selector {
-    for (id<MoefmPlayerDelegate> entry in self.delegate) {
         if ([entry respondsToSelector:selector]) {
             [entry performSelector:selector];
         }

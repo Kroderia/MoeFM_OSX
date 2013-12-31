@@ -34,7 +34,4 @@
 @property (strong) NSImage *songCoverImage;
 @property (weak) MoefmPlayer *moefmPlayer;
 
-@property int errorCounter;
-@property int loadtimeoutCounter;
-
 @end
