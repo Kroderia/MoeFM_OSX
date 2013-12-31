@@ -65,7 +65,7 @@
 
 - (void)showLoadingStatus {
     self.songCoverImageView.image = self.songCoverDefault;
-    [self.songTitleText setString:@"傻猫载入中..." Speed: 0.1f];
+    [self.songTitleText setString:@"少女载入中..." Speed: 0.1f];
     [self.songAlbumText setString:@"......" Speed:0.05f];
     [self.favBtn setImage:[NSImage imageNamed:@"btn_tofav.png"]];
 }

@@ -76,12 +76,9 @@ static MoefmPlayer *instance = nil;
     }
     
     self.isLoading = YES;
-    [self pause];
-    
     [self delegatePerformOptionalSelector:@selector(playerGoingToPlayNext)];
-
-    self.todo = @selector(loadSong:);
-    [self.moefmApi getPlaylist];
+    [self pause];
+    [self addLog];
 }
 
 - (void)loadSong: (NSArray*)playlist {
@@ -144,6 +141,16 @@ static MoefmPlayer *instance = nil;
     
     self.todo = @selector(favResponse:);
     [self.moefmApi deleteFavSongBySubId:[((NSNumber*)[self.song objectForKey:@"sub_id"]) intValue]];
+}
+
+- (void)addLog {
+    self.todo = @selector(logResponse);
+    [self.moefmApi logListenToSubId:[((NSNumber*)[self.song objectForKey:@"sub_id"]) intValue]];
+}
+
+- (void)logResponse {
+    self.todo = @selector(loadSong:);
+    [self.moefmApi getPlaylist];
 }
 
 - (double)currentPlayTime {
@@ -220,7 +227,6 @@ static MoefmPlayer *instance = nil;
         }
     }
 }
-
 
 @end
 

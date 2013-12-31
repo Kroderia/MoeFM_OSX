@@ -21,12 +21,13 @@
 
 - (void)request;
 - (void)accessWithRequestToken: (NSString*)requestToken RequestTokenSecret: (NSString*)requestTokenSecret Verifier: (NSString*)verifier;
+
 - (void)getPlaylistOf: (int)count;
 - (void)getPlaylist;
-
 - (void)addTrashSongBySubId: (int)subId;
 - (void)addFavSongBySubId: (int)subId;
 - (void)deleteFavSongBySubId: (int)subId;
+- (void)logListenToSubId: (int)subId;
 
 - (void)recvData:(NSData *)data;
 

@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>logListenApiUrl</key>
+	<string>http://moe.fm/ajax/log&amp;log_obj_type=sub&amp;log_type=listen&amp;obj_type=song&amp;api=json</string>
 	<key>addFavApiUrl</key>
 	<string>http://api.moefou.org/fav/add.json</string>
 	<key>deleteFavApiUrl</key>

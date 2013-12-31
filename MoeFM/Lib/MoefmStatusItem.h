@@ -14,6 +14,7 @@
 
 @property (weak) MoefmPlayer *moefmPlayer;
 @property (strong) NSStatusItem *item;
+
 @property int errorCounter;
 @property int loadtimeoutCounter;
 

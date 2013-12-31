@@ -138,6 +138,15 @@
     [self sendFavRequestAction:@"add" Type:2 SubId:subId];
 }
 
+- (void)logListenToSubId: (int)subId {
+    self.todo = @selector(parseStandardApiInfoFromData:);
+
+    NSString *theUrl = [NSString stringWithFormat:@"%@?url=%@&%@&obj_id=%d", [self.plistDict objectForKey:@"ogetUrl"], [self.plistDict objectForKey:@"logListenApiUrl"], [self oauthString], subId];
+    
+    HttpConnection *theConnection = [[HttpConnection alloc] init];
+    [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
+}
+
 - (NSString*)oauthString {
     return [NSString stringWithFormat:@"access_token=%@&access_token_secret=%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"], [[NSUserDefaults standardUserDefaults] objectForKey:@"accessTokenSecret"]];
 }
