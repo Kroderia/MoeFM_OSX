@@ -41,6 +41,7 @@
 - (void)playerDidStartPlaying {
     [self.playBtn setImage:[NSImage imageNamed:@"btn_pause.png"]];
     self.errorCounter = 0;
+    self.loadtimeoutCounter = 0;
 }
 
 - (void)playerDidPausePlaying {
@@ -60,17 +61,27 @@
 }
 
 - (void)playerUpdatePlayingTime {
-    double time = CMTimeGetSeconds([self.moefmPlayer currentTime]);
+    double curtime = CMTimeGetSeconds([self.moefmPlayer currentTime]);
     double duration = [self playerItemDuration];
-    int left = (int)(duration - time);
+    int left = (int)(duration - curtime);
     
-    [self.songProgressBar setPlayedWidthOf:time / duration];
+    [self.songProgressBar setPlayedWidthOf:curtime / duration];
     self.songProgressTimer.stringValue = [NSString stringWithFormat:@"-%02d:%02d", left/60, left%60];
 
     CMTimeRange range = [[[self.moefmPlayer currentItem].loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
-    time = CMTimeGetSeconds(range.start) + CMTimeGetSeconds(range.duration);
+    double loadedtime = CMTimeGetSeconds(range.start) + CMTimeGetSeconds(range.duration);
 
-    [self.songProgressBar setLoadedWidthOf:time / duration];
+    [self.songProgressBar setLoadedWidthOf:loadedtime / duration];
+    
+    if (curtime == loadedtime) {
+        self.loadtimeoutCounter++;
+    } else {
+        self.loadtimeoutCounter = 0;
+    }
+    
+    if (self.loadtimeoutCounter > 10) {
+        [self.moefmPlayer playNextSong];
+    }
 }
 
 
