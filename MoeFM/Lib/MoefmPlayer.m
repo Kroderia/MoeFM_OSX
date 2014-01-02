@@ -78,7 +78,12 @@ static MoefmPlayer *instance = nil;
     self.isLoading = YES;
     [self delegatePerformOptionalSelector:@selector(playerGoingToPlayNext)];
     [self pause];
-    [self addLog];
+    
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"useLogListen"] == NSOnState) {
+        [self addLog];
+    } else {
+        [self loadPlaylist];
+    }
 }
 
 - (void)loadSong: (NSArray*)playlist {
@@ -144,11 +149,11 @@ static MoefmPlayer *instance = nil;
 }
 
 - (void)addLog {
-    self.todo = @selector(logResponse);
+    self.todo = @selector(loadPlaylist);
     [self.moefmApi logListenToSubId:[((NSNumber*)[self.song objectForKey:@"sub_id"]) intValue]];
 }
 
-- (void)logResponse {
+- (void)loadPlaylist {
     self.todo = @selector(loadSong:);
     [self.moefmApi getPlaylist];
 }

@@ -18,6 +18,7 @@
 @property (weak) IBOutlet NSToolbar *preferencesSwitcher;
 
 @property (weak) IBOutlet NSButton *checkUseNotification;
+@property (weak) IBOutlet NSButton *checkUseLogListen;
 
 @property (weak) IBOutlet NSTextField *authorizeInfoLabel;
 @property (weak) IBOutlet NSButton *doAuthorizeBtn;
@@ -25,6 +26,7 @@
 
 @property (strong) LoginWindowController *loginWindowController;
 
+- (IBAction)didCheckUseLogListen:(NSButton*)sender;
 - (IBAction)didCheckUseNotification:(NSButton*)sender;
 
 - (IBAction)switchView:(NSToolbarItem*)sender;

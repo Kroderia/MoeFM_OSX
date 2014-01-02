@@ -7,7 +7,10 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesPanelWindowController">
             <connections>
                 <outlet property="authorizeInfoLabel" destination="MJR-IB-GWX" id="tth-5I-bYT"/>
+                <outlet property="check" destination="FOb-0d-3zF" id="BrZ-a2-PVb"/>
+                <outlet property="checkUseLogListen" destination="FOb-0d-3zF" id="eU4-6H-d0K"/>
                 <outlet property="checkUseNotification" destination="46n-iy-zJo" id="CyO-eH-KOZ"/>
+                <outlet property="didCheckUseLogListen" destination="FOb-0d-3zF" id="FOx-3a-2df"/>
                 <outlet property="dismissAuthorizeBtn" destination="MNg-nX-lsN" id="0Wb-XQ-qs2"/>
                 <outlet property="doAuthorizeBtn" destination="6Rn-SZ-5aM" id="KK7-Sx-LAM"/>
                 <outlet property="preferencesSwitchView" destination="WzL-4b-Vs5" id="EaB-AY-4nE"/>
@@ -20,20 +23,20 @@
         <window title="偏好设置" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="360" height="120"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1366" height="746"/>
+            <rect key="contentRect" x="196" y="240" width="475" height="120"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
             <view key="contentView" id="2">
-                <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
+                <rect key="frame" x="0.0" y="0.0" width="475" height="120"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <tabView fixedFrame="YES" type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="WzL-4b-Vs5">
-                        <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
+                        <rect key="frame" x="0.0" y="0.0" width="475" height="120"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="1" identifier="" id="Th8-Wd-Q7t">
-                                <view key="view" ambiguous="YES" id="MKw-eL-Vgt">
-                                    <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
+                                <view key="view" id="MKw-eL-Vgt">
+                                    <rect key="frame" x="0.0" y="0.0" width="475" height="120"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="46n-iy-zJo">
@@ -47,16 +50,27 @@
                                                 <action selector="didCheckUseNotification:" target="-2" id="6vP-tR-DbV"/>
                                             </connections>
                                         </button>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FOb-0d-3zF">
+                                            <rect key="frame" x="18" y="18" width="360" height="46"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="使用收听记录功能(即&quot;听过&quot;, 需要授权)" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="7rd-Ot-4g6">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" size="20" name="STHeitiSC-Light"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="didCheckUseLogListen:" target="-2" id="RHw-xh-EdH"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="2" identifier="" id="Lcc-Tq-CL5">
-                                <view key="view" id="fol-6K-gAE">
-                                    <rect key="frame" x="0.0" y="0.0" width="360" height="120"/>
+                                <view key="view" ambiguous="YES" id="fol-6K-gAE">
+                                    <rect key="frame" x="0.0" y="0.0" width="475" height="120"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MJR-IB-GWX">
-                                            <rect key="frame" x="36" y="76" width="288" height="24"/>
+                                            <rect key="frame" x="93" y="76" width="288" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="当前未授权" id="cvz-DY-j3a">
                                                 <font key="font" size="20" name="STHeitiSC-Light"/>
@@ -65,7 +79,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Rn-SZ-5aM">
-                                            <rect key="frame" x="36" y="24" width="120" height="42"/>
+                                            <rect key="frame" x="93" y="24" width="120" height="42"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="bevel" title="授权" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SwN-Mf-fp3">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -76,7 +90,7 @@
                                             </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MNg-nX-lsN">
-                                            <rect key="frame" x="204" y="24" width="120" height="42"/>
+                                            <rect key="frame" x="261" y="24" width="120" height="42"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="bevel" title="取消授权" bezelStyle="regularSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oFi-wG-6aF">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>

@@ -38,7 +38,6 @@
     if (theConnection) {
         self.recvData = [[NSMutableData alloc] init];
     }
-    NSLog(@"%@", theUrl);
 }
 
 
@@ -65,6 +64,7 @@
     NSDictionary *recvDict = [NSJSONSerialization JSONObjectWithData:json
                                                              options:kNilOptions
                                                                error:&error];
+    NSLog(@"%@", recvDict);
     if (error == nil) {
         return recvDict;
     } else {

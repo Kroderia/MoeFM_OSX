@@ -50,6 +50,10 @@
     NSLog(@"STALL");
 }
 
+- (void)songInfoDidLoaded {
+    NSLog(@"%@", self.moefmPlayer.song);
+}
+
 - (void)playerDidFailedToPlayToEndTime {
     [self errorLoadingSongInfo];
 }

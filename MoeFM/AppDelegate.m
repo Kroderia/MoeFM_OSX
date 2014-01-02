@@ -13,8 +13,9 @@
 @synthesize playerViewController;
 @synthesize aboutPanelWindowController;
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{
+- (void)awakeFromNib {
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"notFirstLaunch"];
+    
     if ([self isFirstLaunch]) {
         [self initUserDefault];
     }
@@ -39,7 +40,6 @@
     self.isTop = [[NSUserDefaults standardUserDefaults] integerForKey:@"alwaysTop"];
     [self resetIsTop];
 }
-
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {
@@ -83,7 +83,7 @@
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     
     [ud setInteger:NSOnState forKey:@"useNotification"];
-    [ud setInteger:NSOnState forKey:@"presentNotification"];
+    [ud setInteger:NSOnState forKey:@"useLogListen"];
     [ud setInteger:NSOffState forKey:@"alwaysTop"];
     [ud setBool:YES forKey:@"notFirstLaunch"];
 }

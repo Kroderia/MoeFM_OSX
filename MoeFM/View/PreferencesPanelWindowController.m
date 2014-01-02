@@ -50,6 +50,10 @@
 }
 
 
+- (IBAction)didCheckUseLogListen:(NSButton*)sender {
+    [[NSUserDefaults standardUserDefaults] setInteger:sender.state forKey:@"useLogListen"];
+}
+
 - (IBAction)didCheckUseNotification:(NSButton *)sender {
     [[NSUserDefaults standardUserDefaults] setInteger:sender.state forKey:@"useNotification"];
 }
