@@ -12,6 +12,7 @@
 #import "MoefmApiDelegate.h"
 #import "DataNotifyReceiver.h"
 #import "HttpConnection.h"
+#import "EasyNotification.h"
 
 @interface LoginWindowController : NSWindowController<MoefmApiDelegate>
 

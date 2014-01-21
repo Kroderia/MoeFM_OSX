@@ -20,25 +20,31 @@
     [self errorFavingSong];
 }
 
-- (void)errorLoadingSongInfo {
-    self.errorCounter += 1;
-    if (self.errorCounter > 5) {
-        [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"出错次数过多, 可能你的网络有问题. 检查后再点击播放吧."];
-        self.errorCounter = 0;
-        return;
+- (void)errorRecvApiData:(NSDictionary *)error {
+//    self.errorCounter += 1;
+//    if (self.errorCounter > 5) {
+//        [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"出错次数过多, 可能你的网络有问题. 检查后再点击播放吧."];
+//        self.errorCounter = 0;
+//        return;
+//    }
+//    
+//    [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"载入歌曲时出错, 正在为你加载下一首"];
+    [[EasyNotification instance] sendNotificationWithTitle:[error objectForKey:@"title"] Message:[error objectForKey:@"message"]];
+    if ([[error objectForKey:@"code"] integerValue] == 401) {
+        [MoefmApi clearAuthorized];
     }
-    
-    [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"载入歌曲时出错, 正在为你加载下一首"];
     [self.moefmPlayer playNextSong];
     [self.item setTitle:@"(￣皿￣)"];
 }
 
 - (void)playerDidPausePlaying {
     [self.item setTitle:@"( ´_っ`)"];
+    [[self.item.menu itemWithTitle:@"暂停"] setTitle:@"播放"];
 }
 
 - (void)playerDidStartPlaying {
     self.errorCounter = 0;
+    [[self.item.menu itemWithTitle:@"播放"] setTitle:@"暂停"];
     [self.item setTitle:@"(ノﾟ∀ﾟ)ノ"];
 }
 
@@ -51,11 +57,11 @@
 }
 
 - (void)songInfoDidLoaded {
-    NSLog(@"%@", self.moefmPlayer.song);
+//    NSLog(@"%@", self.moefmPlayer.song);
 }
 
 - (void)playerDidFailedToPlayToEndTime {
-    [self errorLoadingSongInfo];
+    [self errorRecvApiData:[NSDictionary dictionaryWithObjectsAndKeys:@"载入歌曲失败", @"title", [NSNumber numberWithInt: 1], @"retry", @"正在为你加载下一首", @"message", nil]];
 }
 
 - (void)playerDidFinishTrashing {

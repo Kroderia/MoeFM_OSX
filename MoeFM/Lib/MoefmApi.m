@@ -15,6 +15,16 @@
 @synthesize plistDict;
 @synthesize delegate;
 
++ (BOOL)isAuthorized {
+    return ([[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"] != nil);
+}
+
++ (void)clearAuthorized {
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud removeObjectForKey:@"accessToken"];
+    [ud removeObjectForKey:@"accessTokenSecret"];
+}
+
 
 - (void)recvData:(NSData *)data {
     [self performSelector:self.todo withObject:data];
@@ -39,6 +49,28 @@
     return self;
 }
 
+- (NSDictionary*)checkIsError: (NSDictionary*)recvDict {
+    if (recvDict == nil) {
+        return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:101], @"code", [NSNumber numberWithInt:1], @"retry", @"接收数据失败", @"title", @">_<网络可能出错了", @"message", nil];
+    }
+    
+    NSDictionary *errorDict = [[recvDict objectForKey:@"response"] objectForKey:@"error"];
+    NSDictionary *result;
+    
+    if (errorDict != nil) {
+        if ([[errorDict objectForKey:@"code"] integerValue] == 401) {
+            result = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:401], @"code", [NSNumber numberWithInt:0], @"retry", @"认证错误", @"title", @"你的授权可能已失效, 请重新授权", @"message", nil];
+        } else {
+            result = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:911], @"code", [NSNumber numberWithInt:1], @"retry", @"未知错误", @"title", [NSString stringWithFormat:@"发生了未知错误, 错误码: %@", [errorDict objectForKey:@"code"]], @"message", nil];
+        }
+    } else if ([[[[recvDict objectForKey:@"response"] objectForKey:@"information"] objectForKey:@"has_error"] boolValue] == YES) {
+        result = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:102], @"code", [NSNumber numberWithInt:1], @"retry", @"未知错误", @"message", @"接收数据存在未知错误", @"title", nil];
+    } else {
+        result = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:100], @"code", nil];
+    }
+    
+    return result;
+}
 
 - (void)request {
     self.todo = @selector(parseInfoFromData:);
@@ -62,13 +94,14 @@
     NSDictionary *recvDict = [HttpConnection dictFrom:data];
     NSDictionary *resultDict;
     
-    if ((recvDict == nil) || (! [recvDict objectForKey:@"status"])) {
-        resultDict = nil;
-    } else {
+    NSDictionary *error = [self checkIsError:recvDict];
+    if ([[error objectForKey:@"code"] integerValue] == 100) {
         resultDict = [recvDict objectForKey:@"info"];
+    } else {
+        resultDict = nil;
     }
     
-    [self.delegate recvApiData:resultDict];
+    [self.delegate recvApiData:resultDict Error:error];
 }
 
 
@@ -76,10 +109,10 @@
     self.todo = @selector(parsePlaylistFromData:);
     NSString *theUrl;
     
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"] == nil) {
-        theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d", [self.plistDict objectForKey:@"getUrl"], [self.plistDict objectForKey:@"playlistApiUrl"], self.apiKey, count];
-    } else {
+    if ([MoefmApi isAuthorized]) {
         theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d&%@", [self.plistDict objectForKey:@"ogetUrl"], [self.plistDict objectForKey:@"playlistApiUrl"], self.apiKey, count, [self oauthString]];
+    } else {
+        theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d", [self.plistDict objectForKey:@"getUrl"], [self.plistDict objectForKey:@"playlistApiUrl"], self.apiKey, count];
     }
     
     HttpConnection *theConnection = [[HttpConnection alloc] init];
@@ -94,13 +127,14 @@
     NSDictionary *recvDict = [HttpConnection dictFrom:data];
     NSDictionary *resultDict;
     
-    if (recvDict == nil) {
-        resultDict = nil;
-    } else {
+    NSDictionary *error = [self checkIsError:recvDict];
+    if ([[error objectForKey:@"code"] integerValue] == 100) {
         resultDict = [[recvDict objectForKey:@"response"] objectForKey:@"playlist"];
+    } else {
+        resultDict = nil;
     }
     
-    [self.delegate recvApiData:resultDict];
+    [self.delegate recvApiData:resultDict Error:error];
 }
 
 
@@ -117,13 +151,16 @@
 
 - (void)parseStandardApiInfoFromData: (NSData*)data {
     NSDictionary *recvDict = [HttpConnection dictFrom:data];
-    NSDictionary *resultDict = [recvDict objectForKey:@"response"];
+    NSDictionary *resultDict;
     
-    if ((resultDict == nil) || ((int)[[resultDict objectForKey:@"information"] objectForKey:@"has_error"] == 1)) {
+    NSDictionary *error = [self checkIsError:recvDict];
+    if ([[error objectForKey:@"code"] integerValue] == 100) {
+        resultDict = [recvDict objectForKey:@"response"];
+    } else {
         resultDict = nil;
     }
     
-    [self.delegate recvApiData:resultDict];
+    [self.delegate recvApiData:resultDict Error:error];
 }
 
 - (void)addFavSongBySubId:(int)subId {

@@ -18,6 +18,8 @@
 @property (weak) id<MoefmApiDelegate> delegate;
 @property SEL todo;
 
++ (BOOL)isAuthorized;
++ (void)clearAuthorized;
 
 - (void)request;
 - (void)accessWithRequestToken: (NSString*)requestToken RequestTokenSecret: (NSString*)requestTokenSecret Verifier: (NSString*)verifier;

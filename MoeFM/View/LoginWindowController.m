@@ -16,8 +16,13 @@
 
 @synthesize receiver;
 
-- (void)recvApiData:(id)data {
-    [self performSelector:self.todo withObject:data];
+- (void)recvApiData:(id)data Error:(NSDictionary *)error {
+    if ([[error objectForKey:@"code"] integerValue] == 100) {
+        [self performSelector:self.todo withObject:data];
+    } else {
+        [[EasyNotification instance] sendNotificationWithTitle:[error objectForKey:@"title"] Message:[error objectForKey:@"message"]];
+    }
+    
 }
 
 - (id)initWithWindow:(NSWindow *)window

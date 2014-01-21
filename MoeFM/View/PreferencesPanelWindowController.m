@@ -31,16 +31,20 @@
     [self resetAuthorizeButton];
 }
 
+- (void)showWindow:(id)sender {
+    [super showWindow:sender];
+    [self resetAuthorizeButton];
+}
 
 - (void)resetAuthorizeButton {
-    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"accessToken"] == nil) {
-        [self.doAuthorizeBtn setEnabled:YES];
-        [self.dismissAuthorizeBtn setEnabled:NO];
-        self.authorizeInfoLabel.stringValue = @"当前未授权";
-    } else {
+    if ([MoefmApi isAuthorized]) {
         [self.doAuthorizeBtn setEnabled:NO];
         [self.dismissAuthorizeBtn setEnabled:YES];
         self.authorizeInfoLabel.stringValue = @"当前已授权";
+    } else {
+        [self.doAuthorizeBtn setEnabled:YES];
+        [self.dismissAuthorizeBtn setEnabled:NO];
+        self.authorizeInfoLabel.stringValue = @"当前未授权";
     }
 }
 
@@ -71,16 +75,12 @@
     self.loginWindowController = [[LoginWindowController alloc] initWithWindowNibName:@"LoginWindowController"];
     self.loginWindowController.receiver = self;
     self.loginWindowController.window.styleMask &= ~NSResizableWindowMask;
-    [self.loginWindowController showWindow:self];
-    
     [self.loginWindowController.window center];
+    [self.loginWindowController showWindow:self];
 }
 
 - (IBAction)dismissAuthorize:(id)sender {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    [ud removeObjectForKey:@"accessToken"];
-    [ud removeObjectForKey:@"accessTokenSecret"];
-    
+    [MoefmApi clearAuthorized];
     [self resetAuthorizeButton];
 }
 

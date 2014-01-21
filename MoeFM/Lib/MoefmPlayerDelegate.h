@@ -14,6 +14,7 @@
 - (void)errorLoadingSongInfo;
 - (void)errorTrashingSong;
 - (void)errorFavingSong;
+- (void)errorRecvApiData: (NSDictionary*)error;
 
 - (void)songInfoDidLoaded;
 - (void)playerUpdatePlayingTime;

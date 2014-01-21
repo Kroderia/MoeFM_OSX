@@ -11,6 +11,6 @@
 @protocol MoefmApiDelegate <NSObject>
 
 @required
-- (void)recvApiData: (id)data;
+- (void)recvApiData: (id)data Error: (NSDictionary*)error;
 
 @end

@@ -11,6 +11,7 @@
 #import "PlayerViewController.h"
 #import "AboutPanelWindowController.h"
 #import "PreferencesPanelWindowController.h"
+#import "MoefmApi.h"
 #import "MoefmPlayer.h"
 #import "MoefmStatusItem.h"
 

@@ -33,8 +33,13 @@ static MoefmPlayer *instance = nil;
     return self;
 }
 
-- (void)recvApiData:(id)data {
-    [self performSelector:self.todo withObject:data];
+- (void)recvApiData:(id)data Error:(NSDictionary *)error {
+    if ([[error objectForKey:@"code"] integerValue] == 100) {
+        [self performSelector:self.todo withObject:data];
+    } else {
+        [self delegatePerformOptionalSelector:@selector(errorRecvApiData:) Data:error];
+        [self performSelector:self.todo withObject:nil];
+    }
 }
 
 - (id)init {
@@ -71,7 +76,7 @@ static MoefmPlayer *instance = nil;
 }
 
 - (void)playNextSong {
-    if (self.isLoading) {
+    if (self.isLoading || self.isFaving || self.isTrashing) {
         return;
     }
     
@@ -149,8 +154,12 @@ static MoefmPlayer *instance = nil;
 }
 
 - (void)addLog {
-    self.todo = @selector(loadPlaylist);
-    [self.moefmApi logListenToSubId:[((NSNumber*)[self.song objectForKey:@"sub_id"]) intValue]];
+    if ([((NSNumber*)[self.song objectForKey:@"sub_id"]) intValue] == 0 || ! [MoefmApi isAuthorized]) {
+        [self loadPlaylist];
+    } else {
+        self.todo = @selector(loadPlaylist);
+        [self.moefmApi logListenToSubId:[((NSNumber*)[self.song objectForKey:@"sub_id"]) intValue]];
+    }
 }
 
 - (void)loadPlaylist {
@@ -176,7 +185,7 @@ static MoefmPlayer *instance = nil;
 - (void)favResponse: (NSDictionary*)response {
     self.isFaving = NO;
     
-    if ((response == nil) || ([response objectForKey:@"error"] != nil)) {
+    if (response == nil) {
         [self delegatePerformOptionalSelector:@selector(errorFavingSong)];
         return;
     }
@@ -200,6 +209,10 @@ static MoefmPlayer *instance = nil;
 }
 
 - (void)delegatePerformOptionalSelector: (SEL)selector {
+    [self delegatePerformOptionalSelector:selector Data:nil];
+}
+
+- (void)delegatePerformOptionalSelector: (SEL)selector Data: (id)data {
     for (id<MoefmPlayerDelegate> entry in self.delegate) {
         if (entry == nil) {
             [self.delegate removeObject:entry];
@@ -207,7 +220,7 @@ static MoefmPlayer *instance = nil;
         }
         
         if ([entry respondsToSelector:selector]) {
-            [entry performSelector:selector];
+            [entry performSelector:selector withObject:data];
         }
     }
 }

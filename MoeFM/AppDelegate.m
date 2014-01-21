@@ -22,8 +22,7 @@
     
     self.statusItem = [[MoefmStatusItem alloc] init];
     [self.statusItem setMenu:self.statusMenu];
-    [self resetPlayBtn];
-    
+
     self.moefmPlayer = [MoefmPlayer sharedInstance];
     
     self.playerViewController = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
@@ -105,7 +104,7 @@
         return;
     }
     
-    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"accessToken"] == nil) {
+    if (! [MoefmApi isAuthorized]) {
         [self showUnauthorizeToActAlert];
         return;
     }
@@ -118,7 +117,7 @@
         return;
     }
     
-    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"accessToken"] == nil) {
+    if (! [MoefmApi isAuthorized]) {
         [self showUnauthorizeToActAlert];
         return;
     }
@@ -142,16 +141,6 @@
         [moefmPlayer pause];
     } else {
         [moefmPlayer play];
-    }
-    
-    [self resetPlayBtn];
-}
-
-- (void)resetPlayBtn {
-    if ([MoefmPlayer sharedInstance].isPlaying) {
-        [[self.statusMenu itemWithTitle:@"播放"] setTitle:@"暂停"];
-    } else {
-        [[self.statusMenu itemWithTitle:@"暂停"] setTitle:@"播放"];
     }
 }
 

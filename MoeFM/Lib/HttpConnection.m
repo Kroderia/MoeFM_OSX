@@ -16,7 +16,7 @@
     NSURL *theUrl = [NSURL URLWithString:url];
     NSURLRequest *theRequest = [[NSURLRequest alloc] initWithURL:theUrl
                                                      cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                                 timeoutInterval:2.0f];
+                                                 timeoutInterval:5.0f];
     NSData *recvData = [NSURLConnection sendSynchronousRequest:theRequest
                                              returningResponse:nil
                                                          error:nil];
@@ -26,11 +26,11 @@
 
 - (void)sendAsynchronousRequestTo:(NSString *)url delegate: (id)delegate {
     self.delegate = delegate;
-    
+    NSLog(@"%@", url);
     NSURL *theUrl = [NSURL URLWithString:url];
     NSURLRequest *theRequest = [[NSURLRequest alloc] initWithURL:theUrl
                                                      cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                                 timeoutInterval:2.0f];
+                                                 timeoutInterval:10.0f];
     NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:theRequest
                                                                      delegate:self
                                                              startImmediately:YES];
@@ -64,7 +64,6 @@
     NSDictionary *recvDict = [NSJSONSerialization JSONObjectWithData:json
                                                              options:kNilOptions
                                                                error:&error];
-    NSLog(@"%@", recvDict);
     if (error == nil) {
         return recvDict;
     } else {
@@ -79,12 +78,15 @@
 
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"%@", [HttpConnection dictFrom:self.recvData]);
+    NSLog(@"%@", error);
     self.recvData = nil;
     [self.delegate recvData:self.recvData];
 }
 
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSLog(@"%@", [HttpConnection dictFrom:self.recvData]);
     [self.delegate recvData:self.recvData];
 }
 
