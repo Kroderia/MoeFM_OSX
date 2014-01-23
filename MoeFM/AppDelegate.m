@@ -35,6 +35,7 @@
     pos.x = screenFrame.origin.x + screenFrame.size.width - self.window.frame.size.width;
     pos.y = screenFrame.origin.y + screenFrame.size.height - self.window.frame.size.height;
     [self.window setFrameOrigin: pos];
+    NSLog(@"%f %f", self.window.frame.origin.x, self.window.frame.origin.y);
     
     self.isTop = [[NSUserDefaults standardUserDefaults] integerForKey:@"alwaysTop"];
     [self resetIsTop];
