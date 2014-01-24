@@ -12,38 +12,35 @@
 
 
 - (void)setDistant:(float)distant {
-    self.drawDistant = distant;
+    drawDistant = distant;
 }
 
 - (void)setString:(NSString *)string Speed:(NSTimeInterval)speed {
-    [self.drawTimer invalidate];
-    self.drawTimer = nil;
+    [drawTimer invalidate];
+    drawTimer = nil;
     
-    self.drawString = [string copy];
-    self.drawPoint = NSZeroPoint;
+    drawString = [string copy];
+    drawPoint = NSZeroPoint;
     
     [self scrollWithSpeed:speed];
     [self setNeedsDisplay:YES];
 }
 
 - (void)setAttributes:(NSDictionary *)attributes {
-    self.drawAttributes = [attributes copy];
+    drawAttributes = [attributes copy];
 }
 
 - (void)scrollWithSpeed: (NSTimeInterval)speed {
-    if ([self.drawString sizeWithAttributes:self.drawAttributes].width < self.frame.size.width) {
+    if ([drawString sizeWithAttributes:drawAttributes].width < self.frame.size.width) {
         return;
     }
     
-    [self.drawTimer invalidate];
-    self.drawTimer = [NSTimer scheduledTimerWithTimeInterval:speed target:self selector:@selector(moveText:) userInfo:nil repeats:YES];
+    [drawTimer invalidate];
+    drawTimer = [NSTimer scheduledTimerWithTimeInterval:speed target:self selector:@selector(moveText:) userInfo:nil repeats:YES];
 }
 
 - (void)moveText:(NSTimer*)timer {
-    NSPoint newPoint = self.drawPoint;
-    newPoint.x -= 1.0f;
-    
-    self.drawPoint = newPoint;
+    drawPoint.x -= 1.0f;
     [self setNeedsDisplay:YES];
 }
 
@@ -51,28 +48,31 @@
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 
-    if (self.drawTimer == nil) {
-        [self.drawString drawAtPoint:self.drawPoint withAttributes:self.drawAttributes];
+    if (drawTimer == nil) {
+        [drawString drawAtPoint:drawPoint
+                 withAttributes:drawAttributes];
         return;
     }
     
-    float width = [self.drawString sizeWithAttributes:self.drawAttributes].width;
-    if (self.drawPoint.x + width*2 + self.drawDistant <= dirtyRect.size.width) {
-        NSPoint newPoint = self.drawPoint;
-        newPoint.x = dirtyRect.size.width + self.drawDistant;
-        self.drawPoint = newPoint;
+    float width = [drawString sizeWithAttributes: drawAttributes].width;
+    if (drawPoint.x + width*2 + drawDistant <= dirtyRect.size.width) {
+        NSPoint newPoint = drawPoint;
+        newPoint.x = dirtyRect.size.width + drawDistant;
+        drawPoint = newPoint;
     }
     
-    NSPoint anotherPoint = self.drawPoint;
-    float pointDistant = width + self.drawDistant;
-    if (self.drawPoint.x <= 0) {
+    NSPoint anotherPoint = drawPoint;
+    float pointDistant = width + drawDistant;
+    if (drawPoint.x <= 0) {
         anotherPoint.x += pointDistant;
     } else {
         anotherPoint.x -= pointDistant;
     }
     
-    [self.drawString drawAtPoint:self.drawPoint withAttributes:self.drawAttributes];
-    [self.drawString drawAtPoint:anotherPoint withAttributes:self.drawAttributes];
+    [drawString drawAtPoint: drawPoint
+             withAttributes: drawAttributes];
+    [drawString drawAtPoint: anotherPoint
+             withAttributes: drawAttributes];
 }
 
 @end

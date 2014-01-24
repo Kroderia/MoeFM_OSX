@@ -18,7 +18,7 @@
 
 - (void)recvApiData:(id)data Error:(NSDictionary *)error {
     if ([[error objectForKey:@"code"] integerValue] == 100) {
-        [self performSelector:self.todo withObject:data];
+        [self performSelector:todo withObject:data];
     } else {
         [[EasyNotification instance] sendNotificationWithTitle:[error objectForKey:@"title"] Message:[error objectForKey:@"message"]];
     }
@@ -29,8 +29,8 @@
 {
     self = [super initWithWindow:window];
     if (self) {
-        self.moefmApi = [[MoefmApi alloc] init];
-        self.moefmApi.delegate = self;
+        moefmApi = [[MoefmApi alloc] init];
+        moefmApi.delegate = self;
     }
     return self;
 }
@@ -38,8 +38,8 @@
 - (void)awakeFromNib {
     [self.loadingIndicator startAnimation:nil];
     
-    self.todo = @selector(saveRequestTokenAndLoadAuthorizePageOf:);
-    [self.moefmApi request];
+    todo = @selector(saveRequestTokenAndLoadAuthorizePageOf:);
+    [moefmApi request];
 }
 
 - (void)saveRequestTokenAndLoadAuthorizePageOf: (NSDictionary*)data {
@@ -88,8 +88,8 @@
         [self.loadingIndicator startAnimation:nil];
         [frame stopLoading];
         
-        self.todo = @selector(saveAccessTokenAndNotify:);
-        [self.moefmApi accessWithRequestToken:self.requestToken
+        todo = @selector(saveAccessTokenAndNotify:);
+        [moefmApi accessWithRequestToken:self.requestToken
                            RequestTokenSecret:self.requestTokenSecret
                                      Verifier:verifier];
     }

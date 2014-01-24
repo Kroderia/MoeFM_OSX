@@ -15,20 +15,20 @@
     NSRect frame = self.frame;
     frame.size.width = 0.0f;
     
-    self.loadedProgressView = [[NSBox alloc] initWithFrame:frame];
-    self.loadedProgressView.titlePosition = NSNoTitle;
-    self.loadedProgressView.boxType = NSBoxCustom;
-    self.loadedProgressView.borderType = NSNoBorder;
-    self.loadedProgressView.fillColor = [NSColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0f];
+    loadedProgressView = [[NSBox alloc] initWithFrame:frame];
+    loadedProgressView.titlePosition = NSNoTitle;
+    loadedProgressView.boxType = NSBoxCustom;
+    loadedProgressView.borderType = NSNoBorder;
+    loadedProgressView.fillColor = [NSColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0f];
     
-    self.playedProgressView = [[NSBox alloc] initWithFrame:frame];
-    self.playedProgressView.titlePosition = NSNoTitle;
-    self.playedProgressView.boxType = NSBoxCustom;
-    self.playedProgressView.borderType = NSNoBorder;
-    self.playedProgressView.fillColor = [NSColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
+    playedProgressView = [[NSBox alloc] initWithFrame:frame];
+    playedProgressView.titlePosition = NSNoTitle;
+    playedProgressView.boxType = NSBoxCustom;
+    playedProgressView.borderType = NSNoBorder;
+    playedProgressView.fillColor = [NSColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:1.0f];
     
-    [self addSubview:self.loadedProgressView];
-    [self addSubview:self.playedProgressView];
+    [self addSubview:loadedProgressView];
+    [self addSubview:playedProgressView];
 }
 
 - (void)resetProgress {
@@ -41,7 +41,7 @@
     NSRect frame = ((NSView*)self.contentView).frame;
     frame.size.width = frame.size.width * rate;
     
-    self.loadedProgressView.frame = frame;
+    loadedProgressView.frame = frame;
 }
 
 
@@ -49,7 +49,7 @@
     NSRect frame = ((NSView*)self.contentView).frame;
     frame.size.width = frame.size.width * rate;
     
-    self.playedProgressView.frame = frame;
+    playedProgressView.frame = frame;
 }
 
 

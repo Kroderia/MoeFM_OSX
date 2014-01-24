@@ -16,21 +16,21 @@
 #import "MoefmStatusItem.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
+{
+    BOOL isTop;
+    MoefmPlayer *moefmPlayer;
+    MoefmStatusItem *statusItem;
+    
+    PlayerViewController *playerViewController;
+    AboutPanelWindowController *aboutPanelWindowController;
+    PreferencesPanelWindowController *preferencesPanelWindowController;
+}
+
+@property (weak) IBOutlet NSMenu *statusMenu;
+@property (assign) IBOutlet NSWindow *window;
 
 - (IBAction)showPreferencesPanel:(id)sender;
 - (IBAction)showAboutPanel:(id)sender;
-
-@property (strong) MoefmStatusItem *statusItem;
-@property (weak) IBOutlet NSMenu *statusMenu;
-
-@property (weak) MoefmPlayer *moefmPlayer;
-
-@property (assign) IBOutlet NSWindow *window;
-@property BOOL isTop;
-@property (strong) PlayerViewController *playerViewController;
-@property (strong) AboutPanelWindowController *aboutPanelWindowController;
-@property (strong) PreferencesPanelWindowController *preferencesPanelWindowController;
-
 
 - (IBAction)clickQuitBtn:(id)sender;
 - (IBAction)clickNextBtn:(id)sender;

@@ -10,6 +10,13 @@
 
 @implementation ImageSwitchButton
 
+- (void)awakeFromNib {
+    btnTrackingRectTag = [self addTrackingRect:self.bounds
+                                         owner:self
+                                      userData:NULL
+                                  assumeInside:YES];
+}
+
 - (void)setImageWhenStateOn:(NSImage *)on {
     self.imageOn = on;
 }
@@ -36,6 +43,11 @@
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
+    [self setImage:[self imageOfState:self.state]];
+}
+
+- (void)setState:(NSInteger)value {
+    [super setState:value];
     [self setImage:[self imageOfState:self.state]];
 }
 

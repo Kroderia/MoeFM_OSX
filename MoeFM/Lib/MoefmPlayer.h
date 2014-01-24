@@ -10,27 +10,33 @@
 #import "MoefmApi.h"
 #import "MoefmApiDelegate.h"
 #import "MoefmPlayerDelegate.h"
+#import "MultipleDelegate.h"
 
-@interface MoefmPlayer : AVPlayer<MoefmApiDelegate>
+@interface MoefmPlayer : AVPlayer<MoefmApiDelegate, MultipleDelegate>
+{
+    BOOL loading;
+    BOOL playing;
+    BOOL trashing;
+    BOOL faving;
+    SEL todo;
+}
 
-@property BOOL isLoading;
-@property BOOL isPlaying;
-@property BOOL isTrashing;
-@property BOOL isFaving;
-
-@property (strong) NSMutableArray *delegate;
 @property (strong) NSMutableDictionary *song;
 @property (strong) MoefmApi *moefmApi;
-@property SEL todo;
 
 + (MoefmPlayer*)sharedInstance;
 
-- (void)addDelegate: (id<MoefmPlayerDelegate>)delegate;
 - (void)playNextSong;
-- (BOOL)isFav;
+
 - (void)addTrash;
 - (void)addFav;
 - (void)deleteFav;
+
+- (BOOL)isLoading;
+- (BOOL)isPlaying;
+- (BOOL)isTrashing;
+- (BOOL)isFaving;
+- (BOOL)isFav;
 
 - (double)currentPlayTime;
 - (double)currentLoadTime;

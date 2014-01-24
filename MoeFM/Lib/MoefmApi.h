@@ -11,12 +11,13 @@
 #import "MoefmApiDelegate.h"
 
 @interface MoefmApi : NSObject<HttpConnectionRecvDelegate>
-
-@property (strong) NSString *apiKey;
-@property (strong) NSDictionary *plistDict;
+{
+    NSString *apiKey;
+    NSDictionary *plistDict;
+    SEL todo;
+}
 
 @property (weak) id<MoefmApiDelegate> delegate;
-@property SEL todo;
 
 + (BOOL)isAuthorized;
 + (void)clearAuthorized;
@@ -24,11 +25,11 @@
 - (void)request;
 - (void)accessWithRequestToken: (NSString*)requestToken RequestTokenSecret: (NSString*)requestTokenSecret Verifier: (NSString*)verifier;
 
-- (void)getPlaylistOf: (int)count;
 - (void)getPlaylist;
-- (void)addTrashSongBySubId: (int)subId;
-- (void)addFavSongBySubId: (int)subId;
+- (void)getPlaylistOf: (int)count;
 - (void)deleteFavSongBySubId: (int)subId;
+- (void)addFavSongBySubId: (int)subId;
+- (void)addTrashSongBySubId: (int)subId;
 - (void)logListenToSubId: (int)subId;
 
 - (void)recvData:(NSData *)data;

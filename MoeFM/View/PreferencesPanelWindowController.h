@@ -11,8 +11,9 @@
 #import "LoginWindowController.h"
 
 @interface PreferencesPanelWindowController : NSWindowController<NSToolbarDelegate, DataNotifyReceiver>
-
-@property int currentTag;
+{
+    long currentTag;
+}
 
 @property (weak) IBOutlet NSTabView *preferencesSwitchView;
 @property (weak) IBOutlet NSToolbar *preferencesSwitcher;

@@ -10,9 +10,9 @@
 
 @implementation AppDelegate
 
-@synthesize playerViewController;
-@synthesize aboutPanelWindowController;
 
+//==========================================
+// Override
 - (void)awakeFromNib {
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"notFirstLaunch"];
     
@@ -20,25 +20,24 @@
         [self initUserDefault];
     }
     
-    self.statusItem = [[MoefmStatusItem alloc] init];
-    [self.statusItem setMenu:self.statusMenu];
+    statusItem = [[MoefmStatusItem alloc] init];
+    [statusItem setMenu:self.statusMenu];
 
-    self.moefmPlayer = [MoefmPlayer sharedInstance];
+    moefmPlayer = [MoefmPlayer sharedInstance];
     
-    self.playerViewController = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
-    [self.window setContentSize:self.playerViewController.view.frame.size];
-    self.window.contentView = self.playerViewController.view;
+    playerViewController = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
+    [self.window setContentSize:playerViewController.view.frame.size];
+    self.window.contentView = playerViewController.view;
     self.window.styleMask &= ~NSResizableWindowMask;
     
     NSPoint pos;
     NSRect screenFrame = [[NSScreen mainScreen] visibleFrame];
-    pos.x = screenFrame.origin.x + screenFrame.size.width - self.window.frame.size.width;
-    pos.y = screenFrame.origin.y + screenFrame.size.height - self.window.frame.size.height;
+    CGSize windowSize = self.window.frame.size;
+    pos.x = screenFrame.origin.x + screenFrame.size.width - windowSize.width;
+    pos.y = screenFrame.origin.y + screenFrame.size.height - windowSize.height;
     [self.window setFrameOrigin: pos];
-    NSLog(@"%f %f", self.window.frame.origin.x, self.window.frame.origin.y);
     
-    self.isTop = [[NSUserDefaults standardUserDefaults] integerForKey:@"alwaysTop"];
-    [self resetIsTop];
+    [self setIsTop:[[NSUserDefaults standardUserDefaults] integerForKey:@"alwaysTop"]];
 }
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
@@ -53,26 +52,30 @@
 }
 
 
+//==========================================
+// Show window
 - (IBAction)showPreferencesPanel:(id)sender {
-    if (self.preferencesPanelWindowController == nil) {
-        self.preferencesPanelWindowController = [[PreferencesPanelWindowController alloc] initWithWindowNibName:@"PreferencesPanelWindowController"];
-        self.preferencesPanelWindowController.window.styleMask &= ~NSResizableWindowMask;
+    if (preferencesPanelWindowController == nil) {
+        preferencesPanelWindowController = [[PreferencesPanelWindowController alloc] initWithWindowNibName:@"PreferencesPanelWindowController"];
+        preferencesPanelWindowController.window.styleMask &= ~NSResizableWindowMask;
     }
     
-    [self.preferencesPanelWindowController.window center];
-    [self.preferencesPanelWindowController showWindow:sender];
+    [preferencesPanelWindowController.window center];
+    [preferencesPanelWindowController showWindow:sender];
 }
 
 - (IBAction)showAboutPanel:(id)sender {
-    if (self.aboutPanelWindowController == nil) {
-        self.aboutPanelWindowController = [[AboutPanelWindowController alloc] initWithWindowNibName:@"AboutPanelWindowController"];
-        self.aboutPanelWindowController.window.styleMask &= ~NSResizableWindowMask;
+    if (aboutPanelWindowController == nil) {
+        aboutPanelWindowController = [[AboutPanelWindowController alloc] initWithWindowNibName:@"AboutPanelWindowController"];
+        aboutPanelWindowController.window.styleMask &= ~NSResizableWindowMask;
     }
     
-    [self.aboutPanelWindowController.window center];
-    [self.aboutPanelWindowController showWindow:sender];
+    [aboutPanelWindowController.window center];
+    [aboutPanelWindowController showWindow:sender];
 }
 
+//==========================================
+// Launch state
 - (BOOL)isFirstLaunch {
     BOOL state = [[NSUserDefaults standardUserDefaults] boolForKey:@"notFirstLaunch"];
     
@@ -88,56 +91,55 @@
     [ud setBool:YES forKey:@"notFirstLaunch"];
 }
 
+//==========================================
+// Click action
 - (IBAction)clickQuitBtn:(id)sender {
     [NSApp terminate: self];
 }
 
 - (IBAction)clickNextBtn:(id)sender {
-    if (self.moefmPlayer.isLoading) {
+    if (moefmPlayer.isLoading) {
         return;
     }
     
-    [self.moefmPlayer playNextSong];
-}
-
-- (IBAction)clickTrashBtn:(id)sender {
-    if ([self.moefmPlayer isTrashing] || [self.moefmPlayer isLoading]) {
-        return;
-    }
-    
-    if (! [MoefmApi isAuthorized]) {
-        [self showUnauthorizeToActAlert];
-        return;
-    }
-    
-    [self.moefmPlayer addTrash];
+    [moefmPlayer playNextSong];
 }
 
 - (IBAction)clickFavBtn:(id)sender {
-    if ([self.moefmPlayer isFaving]) {
+    if (moefmPlayer.isFaving) {
         return;
     }
     
-    if (! [MoefmApi isAuthorized]) {
+    if (! MoefmApi.isAuthorized) {
         [self showUnauthorizeToActAlert];
         return;
     }
     
-    if ([self.moefmPlayer isFav]) {
-        [self.moefmPlayer deleteFav];
+    if (moefmPlayer.isFav) {
+        [moefmPlayer deleteFav];
     } else {
-        [self.moefmPlayer addFav];
+        [moefmPlayer addFav];
     }
 }
 
+- (IBAction)clickTrashBtn:(id)sender {
+    if (moefmPlayer.isTrashing || moefmPlayer.isLoading) {
+        return;
+    }
+    
+    if (! MoefmApi.isAuthorized) {
+        [self showUnauthorizeToActAlert];
+        return;
+    }
+    
+    [moefmPlayer addTrash];
+}
 
 - (IBAction)clickTopAction:(id)sender {
-    self.isTop = ! self.isTop;
-    [self resetIsTop];
+    [self setIsTop:(! isTop)];
 }
 
 - (IBAction)clickPlayBtn:(id)sender {
-    MoefmPlayer *moefmPlayer = [MoefmPlayer sharedInstance];
     if (moefmPlayer.isPlaying) {
         [moefmPlayer pause];
     } else {
@@ -145,16 +147,20 @@
     }
 }
 
-- (void)resetIsTop {
-    if (self.isTop == NSOffState) {
+//==========================================
+// Window top
+- (void)setIsTop: (BOOL)state {
+    isTop = state;
+    
+    if (isTop == NSOffState) {
         [self.window setLevel:NSNormalWindowLevel];
         [[NSUserDefaults standardUserDefaults] setInteger:NSOffState forKey:@"alwaysTop"];
-        self.isTop = NSOffState;
+        isTop = NSOffState;
         [[self.statusMenu itemWithTitle:@"取消置顶"] setTitle:@"置顶"];
     } else {
         [self.window setLevel:NSFloatingWindowLevel];
         [[NSUserDefaults standardUserDefaults] setInteger:NSOnState forKey:@"alwaysTop"];
-        self.isTop = NSOnState;
+        isTop = NSOnState;
         [[self.statusMenu itemWithTitle:@"置顶"] setTitle:@"取消置顶"];
     }
 }

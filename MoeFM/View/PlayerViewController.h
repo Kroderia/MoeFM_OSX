@@ -12,8 +12,13 @@
 #import "SongProgressBar.h"
 #import "EasyNotification.h"
 #import "ScrollTextView.h"
+#import "ImageSwitchButton.h"
 
 @interface PlayerViewController : NSViewController<MoefmPlayerDelegate>
+{
+    MoefmPlayer *moefmPlayer;
+    NSImage *songCoverDefault;
+}
 
 @property (weak) IBOutlet ScrollTextView *songTitleText;
 @property (weak) IBOutlet ScrollTextView *songAlbumText;
@@ -21,17 +26,16 @@
 @property (weak) IBOutlet SongProgressBar *songProgressBar;
 @property (weak) IBOutlet NSTextField *songProgressTimer;
 
-@property (weak) IBOutlet NSButton *favBtn;
-@property (weak) IBOutlet NSButton *playBtn;
-@property (weak) IBOutlet NSButton *trashBtn;
-@property (weak) IBOutlet NSButton *nextBtn;
+@property (weak) IBOutlet ImageSwitchButton *favBtn;
+@property (weak) IBOutlet ImageSwitchButton *playBtn;
+@property (weak) IBOutlet ImageSwitchButton *trashBtn;
+@property (weak) IBOutlet ImageSwitchButton *nextBtn;
+
 - (IBAction)clickPlayBtn:(id)sender;
 - (IBAction)clickNextBtn:(id)sender;
 - (IBAction)clickTrashBtn:(id)sender;
 - (IBAction)clickFavBtn:(id)sender;
 
-@property (strong) NSImage *songCoverDefault;
 @property (strong) NSImage *songCoverImage;
-@property (weak) MoefmPlayer *moefmPlayer;
 
 @end

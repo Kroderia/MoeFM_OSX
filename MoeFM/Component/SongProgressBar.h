@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 @interface SongProgressBar : NSBox
-
-@property (strong) NSBox *loadedProgressView;
-@property (strong) NSBox *playedProgressView;
-
+{
+    NSBox *loadedProgressView;
+    NSBox *playedProgressView;
+}
 
 - (void)resetProgress;
 - (void)setLoadedWidthOf: (float)rate;

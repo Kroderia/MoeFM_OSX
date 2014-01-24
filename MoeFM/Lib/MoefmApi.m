@@ -12,9 +12,34 @@
 
 @implementation MoefmApi
 
-@synthesize plistDict;
 @synthesize delegate;
 
+//==========================================
+// HttpConnectionRecvDelegate
+- (void)recvData:(NSData *)data {
+    [self performSelector:todo withObject:data];
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        NSPropertyListFormat *plistFormat = nil;
+        NSString *errorDesc = nil;
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"MoeFM-Api" ofType:@"plist"];
+        NSData *plistData = [[NSFileManager defaultManager] contentsAtPath:plistPath];
+        plistDict = (NSDictionary*)[NSPropertyListSerialization propertyListFromData:plistData
+                                                                    mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                                                              format:plistFormat
+                                                                    errorDescription:&errorDesc];
+        
+        apiKey = [plistDict objectForKey:@"apiKey"];
+    }
+    
+    return self;
+}
+
+//==========================================
+// User authorize control
 + (BOOL)isAuthorized {
     return ([[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"] != nil);
 }
@@ -25,30 +50,8 @@
     [ud removeObjectForKey:@"accessTokenSecret"];
 }
 
-
-- (void)recvData:(NSData *)data {
-    [self performSelector:self.todo withObject:data];
-}
-
-- (id)init {
-    self = [super init];
-    if (self) {
-        NSPropertyListFormat *plistFormat = nil;
-        NSString *errorDesc = nil;
-        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"MoeFM-Api" ofType:@"plist"];
-        NSData *plistData = [[NSFileManager defaultManager] contentsAtPath:plistPath];
-        self.plistDict = (NSDictionary*)[NSPropertyListSerialization
-                                         propertyListFromData:plistData
-                                         mutabilityOption:NSPropertyListMutableContainersAndLeaves
-                                         format:plistFormat
-                                         errorDescription:&errorDesc];
-        
-        self.apiKey = [self.plistDict objectForKey:@"apiKey"];
-    }
-    
-    return self;
-}
-
+//==========================================
+// Network/Action error checking
 - (NSDictionary*)checkIsError: (NSDictionary*)recvDict {
     if (recvDict == nil) {
         return [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:101], @"code", [NSNumber numberWithInt:1], @"retry", @"接收数据失败", @"title", @">_<网络可能出错了", @"message", nil];
@@ -72,25 +75,29 @@
     return result;
 }
 
+//==========================================
+// Oauth method
 - (void)request {
-    self.todo = @selector(parseInfoFromData:);
+    todo = @selector(parseOauthInfoFromData:);
     
-    NSString *theUrl = [self.plistDict objectForKey:@"requestUrl"];
+    NSString *theUrl = [plistDict objectForKey:@"requestUrl"];
     HttpConnection *theConnection = [[HttpConnection alloc] init];
     [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
 }
 
 
-- (void)accessWithRequestToken: (NSString*)requestToken RequestTokenSecret: (NSString*)requestTokenSecret Verifier: (NSString*)verifier {
-    self.todo = @selector(parseInfoFromData:);
+- (void)accessWithRequestToken: (NSString*)token RequestTokenSecret: (NSString*)secret Verifier: (NSString*)verifier {
+    todo = @selector(parseOauthInfoFromData:);
     
-    NSString *theUrl = [NSString stringWithFormat:@"%@?request_token=%@&request_token_secret=%@&verifier=%@", [self.plistDict objectForKey:@"accessUrl"], requestToken, requestTokenSecret, verifier];
+    NSString *theUrl = [NSString stringWithFormat:@"%@?request_token=%@&request_token_secret=%@&verifier=%@", [plistDict objectForKey:@"accessUrl"], token, secret, verifier];
     HttpConnection *theConnection = [[HttpConnection alloc] init];
     [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
 }
 
 
-- (void)parseInfoFromData: (NSData*)data {
+//==========================================
+// Parser
+- (void)parseOauthInfoFromData: (NSData*)data {
     NSDictionary *recvDict = [HttpConnection dictFrom:data];
     NSDictionary *resultDict;
     
@@ -104,26 +111,7 @@
     [self.delegate recvApiData:resultDict Error:error];
 }
 
-
-- (void)getPlaylistOf:(int)count {
-    self.todo = @selector(parsePlaylistFromData:);
-    NSString *theUrl;
-    
-    if ([MoefmApi isAuthorized]) {
-        theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d&%@", [self.plistDict objectForKey:@"ogetUrl"], [self.plistDict objectForKey:@"playlistApiUrl"], self.apiKey, count, [self oauthString]];
-    } else {
-        theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d", [self.plistDict objectForKey:@"getUrl"], [self.plistDict objectForKey:@"playlistApiUrl"], self.apiKey, count];
-    }
-    
-    HttpConnection *theConnection = [[HttpConnection alloc] init];
-    [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
-}
-
-- (void)getPlaylist {
-    [self getPlaylistOf:1];
-}
-
-- (void)parsePlaylistFromData: (NSData*)data {
+- (void)parsePlaylistInfoFromData: (NSData*)data {
     NSDictionary *recvDict = [HttpConnection dictFrom:data];
     NSDictionary *resultDict;
     
@@ -135,18 +123,6 @@
     }
     
     [self.delegate recvApiData:resultDict Error:error];
-}
-
-
-- (void)sendFavRequestAction: (NSString*)action Type: (int)type SubId: (int)subId {
-    self.todo = @selector(parseStandardApiInfoFromData:);
-    
-    NSString *ogetUrl = [self.plistDict objectForKey:@"ogetUrl"];
-    NSString *apiUrl = [self.plistDict objectForKey:[NSString stringWithFormat:@"%@FavApiUrl", action]];
-    NSString *theUrl = [NSString stringWithFormat:@"%@?url=%@&%@&fav_obj_type=song&fav_type=%d&fav_obj_id=%d", ogetUrl, apiUrl, [self oauthString], type, subId];
-    
-    HttpConnection *theConnection = [[HttpConnection alloc] init];
-    [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
 }
 
 - (void)parseStandardApiInfoFromData: (NSData*)data {
@@ -163,6 +139,27 @@
     [self.delegate recvApiData:resultDict Error:error];
 }
 
+
+//==========================================
+// Call MoeFM API
+- (void)getPlaylist {
+    [self getPlaylistOf:1];
+}
+
+- (void)getPlaylistOf:(int)count {
+    todo = @selector(parsePlaylistInfoFromData:);
+    NSString *theUrl;
+    
+    if ([MoefmApi isAuthorized]) {
+        theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d&%@", [plistDict objectForKey:@"ogetUrl"], [plistDict objectForKey:@"playlistApiUrl"], apiKey, count, [self oauthString]];
+    } else {
+        theUrl = [NSString stringWithFormat:@"%@?url=%@&api_key=%@&api=json&perpage=%d", [plistDict objectForKey:@"getUrl"], [plistDict objectForKey:@"playlistApiUrl"], apiKey, count];
+    }
+    
+    HttpConnection *theConnection = [[HttpConnection alloc] init];
+    [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
+}
+
 - (void)addFavSongBySubId:(int)subId {
     [self sendFavRequestAction:@"add" Type:1 SubId:subId];
 }
@@ -176,14 +173,28 @@
 }
 
 - (void)logListenToSubId: (int)subId {
-    self.todo = @selector(parseStandardApiInfoFromData:);
+    todo = @selector(parseStandardApiInfoFromData:);
 
-    NSString *theUrl = [NSString stringWithFormat:@"%@?url=%@&%@&obj_id=%d", [self.plistDict objectForKey:@"ogetUrl"], [self.plistDict objectForKey:@"logListenApiUrl"], [self oauthString], subId];
+    NSString *theUrl = [NSString stringWithFormat:@"%@?url=%@&%@&obj_id=%d", [plistDict objectForKey:@"ogetUrl"], [plistDict objectForKey:@"logListenApiUrl"], [self oauthString], subId];
     
     HttpConnection *theConnection = [[HttpConnection alloc] init];
     [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
 }
 
+- (void)sendFavRequestAction: (NSString*)action Type: (int)type SubId: (int)subId {
+    todo = @selector(parseStandardApiInfoFromData:);
+    
+    NSString *ogetUrl = [plistDict objectForKey:@"ogetUrl"];
+    NSString *apiUrl = [plistDict objectForKey:[NSString stringWithFormat:@"%@FavApiUrl", action]];
+    NSString *theUrl = [NSString stringWithFormat:@"%@?url=%@&%@&fav_obj_type=song&fav_type=%d&fav_obj_id=%d", ogetUrl, apiUrl, [self oauthString], type, subId];
+    
+    HttpConnection *theConnection = [[HttpConnection alloc] init];
+    [theConnection sendAsynchronousRequestTo:theUrl delegate:self];
+}
+
+
+//==========================================
+// Params constructor
 - (NSString*)oauthString {
     return [NSString stringWithFormat:@"access_token=%@&access_token_secret=%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"], [[NSUserDefaults standardUserDefaults] objectForKey:@"accessTokenSecret"]];
 }

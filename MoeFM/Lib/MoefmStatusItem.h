@@ -11,12 +11,13 @@
 #import "EasyNotification.h"
 
 @interface MoefmStatusItem : NSObject<MoefmPlayerDelegate>
+{
+    NSStatusItem *item;
+    int errorCounter;
+    int loadtimeoutCounter;
+}
 
 @property (weak) MoefmPlayer *moefmPlayer;
-@property (strong) NSStatusItem *item;
-
-@property int errorCounter;
-@property int loadtimeoutCounter;
 
 - (void)setMenu: (NSMenu*)menu;
 

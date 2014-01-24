@@ -19,11 +19,11 @@
 }
 
 - (void)playerDidStartPlaying {
-    [self.playBtn setImage:[NSImage imageNamed:@"btn_pause.png"]];
+    [self resetPlayBtn];
 }
 
 - (void)playerDidPausePlaying {
-    [self.playBtn setImage:[NSImage imageNamed:@"btn_play.png"]];
+    [self resetPlayBtn];
 }
 
 - (void)playerGoingToPlayNext {
@@ -35,13 +35,13 @@
 }
 
 - (void)playerUpdatePlayingTime {
-    if (self.moefmPlayer.isLoading) {
+    if (moefmPlayer.isLoading) {
         return;
     }
     
-    double duration = [self.moefmPlayer currentStreamTime];
-    double played = [self.moefmPlayer currentPlayTime];
-    double loaded = [self.moefmPlayer currentLoadTime];
+    double duration = [moefmPlayer currentStreamTime];
+    double played = [moefmPlayer currentPlayTime];
+    double loaded = [moefmPlayer currentLoadTime];
     int left = (int)(duration - played);
     if (left < 0) {
         return;
@@ -56,33 +56,38 @@
 - (void)loadView {
     [super loadView];
     
-    self.moefmPlayer = [MoefmPlayer sharedInstance];
-    [self.moefmPlayer addDelegate:self];
+    moefmPlayer = [MoefmPlayer sharedInstance];
+    [moefmPlayer addDelegate:self];
     
     [self.songTitleText setAttributes:@{NSFontAttributeName: [NSFont systemFontOfSize:24]}];
     [self.songTitleText setDistant:48.0f];
     [self.songAlbumText setAttributes:@{NSFontAttributeName: [NSFont systemFontOfSize:16]}];
     [self.songAlbumText setDistant:32.0f];
     
+    [self.favBtn setImageWhenStateOn:[NSImage imageNamed:@"btn_fav.png"] Off:[NSImage imageNamed:@"btn_tofav.png"]];
+    [self.playBtn setImageWhenStateOn:[NSImage imageNamed:@"btn_play.png"] Off:[NSImage imageNamed:@"btn_pause.png"]];
+    [self.trashBtn setImageWhenStateOn:[NSImage imageNamed:@"btn_trash.png"] Off:[NSImage imageNamed:@"btn_totrash.png"]];
+    [self.nextBtn setImageWhenStateOn:[NSImage imageNamed:@"btn_next.png"] Off:[NSImage imageNamed:@"btn_next.png"]];
+    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"logo_512" ofType:@"png"];
-    self.songCoverDefault = [[NSImage alloc] initWithContentsOfFile:path];
+    songCoverDefault = [[NSImage alloc] initWithContentsOfFile:path];
 
-    [self.moefmPlayer playNextSong];
+    [moefmPlayer playNextSong];
 }
 
 - (void)showLoadingStatus {
-    self.songCoverImageView.image = self.songCoverDefault;
+    self.songCoverImageView.image = songCoverDefault;
     [self.songTitleText setString:@"少女载入中..." Speed: 0.1f];
     [self.songAlbumText setString:@"......" Speed:0.05f];
     self.songProgressTimer.stringValue = @"-00:00";
     [self.songProgressBar resetProgress];
-    [self.favBtn setImage:[NSImage imageNamed:@"btn_tofav.png"]];
+    [self.favBtn setState:NSOffState];
 }
 
 - (void)showSongStatus {
-    NSDictionary *song = self.moefmPlayer.song;
+    NSDictionary *song = moefmPlayer.song;
     
-    int duration = ceil([self.moefmPlayer currentStreamTime]);
+    int duration = ceil([moefmPlayer currentStreamTime]);
     self.songProgressTimer.stringValue = [NSString stringWithFormat:@"-%02d:%02d", duration/60, duration%60];
     [self.songProgressBar resetProgress];
     
@@ -97,11 +102,11 @@
 }
 
 - (void)resetFavBtn {
-    if ([self.moefmPlayer isFav]) {
-        [self.favBtn setImage:[NSImage imageNamed:@"btn_fav"]];
-    } else {
-        [self.favBtn setImage:[NSImage imageNamed:@"btn_tofav"]];
-    }
+    [self.favBtn setState:moefmPlayer.isFav];
+}
+
+- (void)resetPlayBtn {
+    [self.playBtn setState:moefmPlayer.isPlaying];
 }
 
 
@@ -111,31 +116,31 @@
 }
 
 - (void)itemDidFinishPlaying: (NSNotification*)notification {
-    [self.moefmPlayer playNextSong];
+    [moefmPlayer playNextSong];
 }
 
 - (IBAction)clickPlayBtn:(id)sender {
-    if (self.moefmPlayer.isLoading) {
+    if (moefmPlayer.isLoading) {
         return;
     }
     
-    if (self.moefmPlayer.isPlaying) {
-        [self.moefmPlayer pause];
+    if (moefmPlayer.isPlaying) {
+        [moefmPlayer pause];
     } else {
-        [self.moefmPlayer play];
+        [moefmPlayer play];
     }
 }
 
 - (IBAction)clickNextBtn:(id)sender {
-    if (self.moefmPlayer.isLoading) {
+    if (moefmPlayer.isLoading) {
         return;
     }
     
-    [self.moefmPlayer playNextSong];
+    [moefmPlayer playNextSong];
 }
 
 - (IBAction)clickTrashBtn:(id)sender {
-    if ([self.moefmPlayer isTrashing] || [self.moefmPlayer isLoading]) {
+    if (moefmPlayer.isTrashing || moefmPlayer.isLoading) {
         return;
     }
     
@@ -144,11 +149,11 @@
         return;
     }
     
-    [self.moefmPlayer addTrash];
+    [moefmPlayer addTrash];
 }
 
 - (IBAction)clickFavBtn:(id)sender {
-    if ([self.moefmPlayer isFaving]) {
+    if (moefmPlayer.isFaving) {
         return;
     }
     
@@ -157,10 +162,10 @@
         return;
     }
     
-    if ([self.moefmPlayer isFav]) {
-        [self.moefmPlayer deleteFav];
+    if (moefmPlayer.isFav) {
+        [moefmPlayer deleteFav];
     } else {
-        [self.moefmPlayer addFav];
+        [moefmPlayer addFav];
     }
 }
 

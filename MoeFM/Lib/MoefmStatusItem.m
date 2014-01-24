@@ -10,8 +10,6 @@
 
 @implementation MoefmStatusItem
 
-@synthesize item;
-
 - (void)errorFavingSong {
     [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"进行操作时出错了, 重试一下吧..."];
 }
@@ -26,18 +24,18 @@
         [MoefmApi clearAuthorized];
     }
     [self.moefmPlayer playNextSong];
-    [self.item setTitle:@"(￣皿￣)"];
+    [item setTitle:@"(￣皿￣)"];
 }
 
 - (void)playerDidPausePlaying {
-    [self.item setTitle:@"( ´_っ`)"];
-    [[self.item.menu itemWithTitle:@"暂停"] setTitle:@"播放"];
+    [item setTitle:@"( ´_っ`)"];
+    [[item.menu itemWithTitle:@"暂停"] setTitle:@"播放"];
 }
 
 - (void)playerDidStartPlaying {
-    self.errorCounter = 0;
-    [[self.item.menu itemWithTitle:@"播放"] setTitle:@"暂停"];
-    [self.item setTitle:@"(ノﾟ∀ﾟ)ノ"];
+    errorCounter = 0;
+    [[item.menu itemWithTitle:@"播放"] setTitle:@"暂停"];
+    [item setTitle:@"(ノﾟ∀ﾟ)ノ"];
 }
 
 - (void)playerDidFinishPlaying {
@@ -61,9 +59,9 @@
 
 - (void)playerDidFinishFaving {
     if ([[MoefmPlayer sharedInstance] isFav]) {
-        [[[self.item menu] itemWithTitle:@"收藏"] setTitle:@"取消收藏"];
+        [[[item menu] itemWithTitle:@"收藏"] setTitle:@"取消收藏"];
     } else {
-        [[[self.item menu] itemWithTitle:@"取消收藏"] setTitle:@"收藏"];
+        [[[item menu] itemWithTitle:@"取消收藏"] setTitle:@"收藏"];
     }
 }
 
@@ -73,16 +71,16 @@
     if (self) {
         self.moefmPlayer = [MoefmPlayer sharedInstance];
         [self.moefmPlayer addDelegate:self];
-        self.item = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-        [self.item setHighlightMode:YES];
-        [self.item setTitle:@"(ノﾟ∀ﾟ)ノ"];
+        item = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+        [item setHighlightMode:YES];
+        [item setTitle:@"(ノﾟ∀ﾟ)ノ"];
     }
     
     return self;
 }
 
 - (void)setMenu:(NSMenu *)menu {
-    [self.item setMenu:menu];
+    [item setMenu:menu];
 }
 
 

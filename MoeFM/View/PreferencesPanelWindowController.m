@@ -14,8 +14,6 @@
 
 @implementation PreferencesPanelWindowController
 
-@synthesize currentTag;
-
 - (void)recvData: (id)data {
     [self.loginWindowController close];
     [self resetAuthorizeButton];
@@ -26,7 +24,7 @@
     
     NSToolbarItem *item = (NSToolbarItem*)[[self.preferencesSwitcher items] objectAtIndex:0];
     [self.preferencesSwitcher setSelectedItemIdentifier:item.itemIdentifier];
-    self.currentTag = item.tag;
+    currentTag = item.tag;
     
     [self resetAuthorizeButton];
 }
@@ -63,12 +61,12 @@
 }
 
 - (IBAction)switchView:(NSToolbarItem*)sender {
-    if (sender.tag == self.currentTag) {
+    if (sender.tag == currentTag) {
         return;
     }
     
     [self.preferencesSwitchView selectTabViewItemAtIndex:sender.tag];
-    self.currentTag = sender.tag;
+    currentTag = sender.tag;
 }
 
 - (IBAction)showLoginWindow:(id)sender {

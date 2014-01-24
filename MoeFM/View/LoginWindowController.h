@@ -15,6 +15,10 @@
 #import "EasyNotification.h"
 
 @interface LoginWindowController : NSWindowController<MoefmApiDelegate>
+{
+    SEL todo;
+    MoefmApi *moefmApi;
+}
 
 
 @property (weak) IBOutlet WebView *loginWebView;
@@ -27,8 +31,6 @@
 @property (strong) NSString *accessToken;
 @property (strong) NSString *accessTokenSecret;
 
-@property (strong) MoefmApi *moefmApi;
 @property (weak) id<DataNotifyReceiver> receiver;
-@property SEL todo;
 
 @end

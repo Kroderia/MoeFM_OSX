@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ImageSwitchButton : NSButton
+{
+    NSTrackingRectTag btnTrackingRectTag;
+}
 
 @property (nonatomic, weak) NSImage *imageOn;
 @property (nonatomic, weak) NSImage *imageOff;
@@ -16,5 +19,8 @@
 - (void)setImageWhenStateOn: (NSImage*)on Off: (NSImage*)off;
 - (void)setImageWhenStateOn: (NSImage*)on;
 - (void)setImageWhenStateOff: (NSImage*)off;
+
+- (void)mouseEntered:(NSEvent *)theEvent;
+- (void)mouseExited:(NSEvent *)theEvent;
 
 @end

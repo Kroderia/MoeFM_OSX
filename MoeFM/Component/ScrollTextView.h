@@ -9,12 +9,13 @@
 #import <Cocoa/Cocoa.h>
 
 @interface ScrollTextView : NSView
-
-@property NSPoint drawPoint;
-@property (strong) NSString *drawString;
-@property float drawDistant;
-@property (strong) NSDictionary *drawAttributes;
-@property (strong) NSTimer *drawTimer;
+{
+    float drawDistant;
+    NSString *drawString;
+    NSPoint drawPoint;
+    NSDictionary *drawAttributes;
+    NSTimer *drawTimer;
+}
 
 - (void)setDistant: (float)distant;
 - (void)setString: (NSString*)string Speed: (NSTimeInterval)speed;
