@@ -11,10 +11,7 @@
 @implementation SongProgressBar
 
 
-- (void)resetProgress {
-    [self.loadedProgressView removeFromSuperview];
-    [self.playedProgressView removeFromSuperview];
-    
+- (void)awakeFromNib {
     NSRect frame = self.frame;
     frame.size.width = 0.0f;
     
@@ -32,6 +29,11 @@
     
     [self addSubview:self.loadedProgressView];
     [self addSubview:self.playedProgressView];
+}
+
+- (void)resetProgress {
+    [self setPlayedWidthOf:0.0f];
+    [self setLoadedWidthOf:0.0f];
 }
 
 

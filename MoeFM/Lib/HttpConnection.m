@@ -26,7 +26,7 @@
 
 - (void)sendAsynchronousRequestTo:(NSString *)url delegate: (id)delegate {
     self.delegate = delegate;
-    NSLog(@"%@", url);
+
     NSURL *theUrl = [NSURL URLWithString:url];
     NSURLRequest *theRequest = [[NSURLRequest alloc] initWithURL:theUrl
                                                      cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -78,15 +78,12 @@
 
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"%@", [HttpConnection dictFrom:self.recvData]);
-    NSLog(@"%@", error);
     self.recvData = nil;
     [self.delegate recvData:self.recvData];
 }
 
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSLog(@"%@", [HttpConnection dictFrom:self.recvData]);
     [self.delegate recvData:self.recvData];
 }
 

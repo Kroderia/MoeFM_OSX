@@ -17,18 +17,10 @@
 }
 
 - (void)errorTrashingSong {
-    [self errorFavingSong];
+    [self.moefmPlayer playNextSong];
 }
 
 - (void)errorRecvApiData:(NSDictionary *)error {
-//    self.errorCounter += 1;
-//    if (self.errorCounter > 5) {
-//        [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"出错次数过多, 可能你的网络有问题. 检查后再点击播放吧."];
-//        self.errorCounter = 0;
-//        return;
-//    }
-//    
-//    [[EasyNotification instance] sendNotificationWithTitle:@"出错了>_<" Message:@"载入歌曲时出错, 正在为你加载下一首"];
     [[EasyNotification instance] sendNotificationWithTitle:[error objectForKey:@"title"] Message:[error objectForKey:@"message"]];
     if ([[error objectForKey:@"code"] integerValue] == 401) {
         [MoefmApi clearAuthorized];
@@ -57,7 +49,6 @@
 }
 
 - (void)songInfoDidLoaded {
-//    NSLog(@"%@", self.moefmPlayer.song);
 }
 
 - (void)playerDidFailedToPlayToEndTime {

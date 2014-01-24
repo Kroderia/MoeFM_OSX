@@ -60,8 +60,8 @@ static EasyNotification *instance = nil;
     notification.title = title;
     notification.informativeText = message;
     
-    [self.center deliverNotification:notification];
     [self.center setDelegate:self];
+    [self.center deliverNotification:notification];
 }
 
 @end

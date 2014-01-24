@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1070" defaultVersion="1070" identifier="macosx"/>
+        <deployment version="1070" defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
@@ -31,10 +31,10 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logo_512" id="rbK-jc-NBc"/>
                 </imageView>
                 <box autoresizesSubviews="NO" title="SongProgressBox" boxType="custom" borderType="none" id="uMS-3E-Jew" customClass="SongProgressBar">
-                    <rect key="frame" x="0.0" y="0.0" width="496" height="10"/>
+                    <rect key="frame" x="0.0" y="0.0" width="467" height="10"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <view key="contentView">
-                        <rect key="frame" x="0.0" y="0.0" width="496" height="10"/>
+                        <rect key="frame" x="0.0" y="0.0" width="467" height="10"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
                     <color key="borderColor" red="0.41960787773132324" green="0.41960787773132324" blue="0.41960787773132324" alpha="1" colorSpace="deviceRGB"/>

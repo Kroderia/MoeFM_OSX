@@ -80,9 +80,9 @@ static MoefmPlayer *instance = nil;
         return;
     }
     
+    [self pause];
     self.isLoading = YES;
     [self delegatePerformOptionalSelector:@selector(playerGoingToPlayNext)];
-    [self pause];
     
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"useLogListen"] == NSOnState) {
         [self addLog];

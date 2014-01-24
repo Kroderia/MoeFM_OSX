@@ -35,10 +35,17 @@
 }
 
 - (void)playerUpdatePlayingTime {
+    if (self.moefmPlayer.isLoading) {
+        return;
+    }
+    
     double duration = [self.moefmPlayer currentStreamTime];
     double played = [self.moefmPlayer currentPlayTime];
     double loaded = [self.moefmPlayer currentLoadTime];
     int left = (int)(duration - played);
+    if (left < 0) {
+        return;
+    }
     
     [self.songProgressBar setPlayedWidthOf:played / duration];
     [self.songProgressBar setLoadedWidthOf:loaded / duration];
@@ -67,6 +74,8 @@
     self.songCoverImageView.image = self.songCoverDefault;
     [self.songTitleText setString:@"少女载入中..." Speed: 0.1f];
     [self.songAlbumText setString:@"......" Speed:0.05f];
+    self.songProgressTimer.stringValue = @"-00:00";
+    [self.songProgressBar resetProgress];
     [self.favBtn setImage:[NSImage imageNamed:@"btn_tofav.png"]];
 }
 
