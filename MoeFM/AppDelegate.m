@@ -25,17 +25,14 @@
 
     moefmPlayer = [MoefmPlayer sharedInstance];
     
-    playerViewController = [[PlayerViewController alloc] initWithNibName:@"PlayerViewController" bundle:nil];
-    [self.window setContentSize:playerViewController.view.frame.size];
-    self.window.contentView = playerViewController.view;
-    self.window.styleMask &= ~NSResizableWindowMask;
+    playerWindowController = [[PlayerWindowController alloc] initWithWindowNibName:@"PlayerWindowController"];
     
     NSPoint pos;
     NSRect screenFrame = [[NSScreen mainScreen] visibleFrame];
-    CGSize windowSize = self.window.frame.size;
+    CGSize windowSize = playerWindowController.window.frame.size;
     pos.x = screenFrame.origin.x + screenFrame.size.width - windowSize.width;
     pos.y = screenFrame.origin.y + screenFrame.size.height - windowSize.height;
-    [self.window setFrameOrigin: pos];
+    [playerWindowController.window setFrameOrigin:pos];
     
     [self setIsTop:[[NSUserDefaults standardUserDefaults] integerForKey:@"alwaysTop"]];
 }
@@ -43,9 +40,9 @@
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {
     if (flag) {
-        [self.window orderFront:self];
+        [playerWindowController.window orderFront:self];
     } else {
-        [self.window makeKeyAndOrderFront:self];
+        [playerWindowController.window makeKeyAndOrderFront:self];
     }
     
     return YES;
@@ -153,12 +150,12 @@
     isTop = state;
     
     if (isTop == NSOffState) {
-        [self.window setLevel:NSNormalWindowLevel];
+        [playerWindowController.window setLevel:NSNormalWindowLevel];
         [[NSUserDefaults standardUserDefaults] setInteger:NSOffState forKey:@"alwaysTop"];
         isTop = NSOffState;
         [[self.statusMenu itemWithTitle:@"取消置顶"] setTitle:@"置顶"];
     } else {
-        [self.window setLevel:NSFloatingWindowLevel];
+        [playerWindowController.window setLevel:NSFloatingWindowLevel];
         [[NSUserDefaults standardUserDefaults] setInteger:NSOnState forKey:@"alwaysTop"];
         isTop = NSOnState;
         [[self.statusMenu itemWithTitle:@"置顶"] setTitle:@"取消置顶"];

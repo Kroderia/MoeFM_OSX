@@ -1,18 +1,18 @@
 //
-//  PlayerViewController.m
+//  PlayerWindowController.m
 //  MoeFM
 //
-//  Created by Kroderia on 12/17/13.
-//  Copyright (c) 2013 im.kroderia. All rights reserved.
+//  Created by Kroderia on 1/24/14.
+//  Copyright (c) 2014 im.kroderia. All rights reserved.
 //
 
-#import "PlayerViewController.h"
+#import "PlayerWindowController.h"
 
-@interface PlayerViewController ()
+@interface PlayerWindowController ()
 
 @end
 
-@implementation PlayerViewController
+@implementation PlayerWindowController
 
 - (void)songInfoDidLoaded {
     [self showSongStatus];
@@ -53,8 +53,8 @@
 }
 
 
-- (void)loadView {
-    [super loadView];
+- (void)windowDidLoad {
+    [super windowDidLoad];
     
     moefmPlayer = [MoefmPlayer sharedInstance];
     [moefmPlayer addDelegate:self];
@@ -71,12 +71,12 @@
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"logo_512" ofType:@"png"];
     songCoverDefault = [[NSImage alloc] initWithContentsOfFile:path];
-
+    
     [moefmPlayer playNextSong];
 }
 
 - (void)showLoadingStatus {
-    self.songCoverImageView.image = songCoverDefault;
+    self.songCoverBtn.image = songCoverDefault;
     [self.songTitleText setString:@"少女载入中..." Speed: 0.1f];
     [self.songAlbumText setString:@"......" Speed:0.05f];
     self.songProgressTimer.stringValue = @"-00:00";
@@ -112,7 +112,7 @@
 
 - (void)changeSongCoverByImageUrl: (NSString*)imageUrl {
     self.songCoverImage = [[NSImage alloc] initWithContentsOfURL:[NSURL URLWithString:imageUrl]];
-    self.songCoverImageView.image = self.songCoverImage;
+    self.songCoverBtn.image = self.songCoverImage;
 }
 
 - (void)itemDidFinishPlaying: (NSNotification*)notification {
@@ -175,29 +175,4 @@
 }
 
 
-
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

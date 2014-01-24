@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "PlayerViewController.h"
+#import "PlayerWindowController.h"
 #import "AboutPanelWindowController.h"
 #import "PreferencesPanelWindowController.h"
 #import "MoefmApi.h"
@@ -21,13 +21,13 @@
     MoefmPlayer *moefmPlayer;
     MoefmStatusItem *statusItem;
     
-    PlayerViewController *playerViewController;
+    
+    PlayerWindowController *playerWindowController;
     AboutPanelWindowController *aboutPanelWindowController;
     PreferencesPanelWindowController *preferencesPanelWindowController;
 }
 
 @property (weak) IBOutlet NSMenu *statusMenu;
-@property (assign) IBOutlet NSWindow *window;
 
 - (IBAction)showPreferencesPanel:(id)sender;
 - (IBAction)showAboutPanel:(id)sender;

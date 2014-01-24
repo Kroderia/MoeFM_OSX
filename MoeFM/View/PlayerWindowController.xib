@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="PlayerWindowController">
+            <connections>
+                <outlet property="favBtn" destination="zcd-Nd-Fc1" id="Hjk-Af-3lE"/>
+                <outlet property="nextBtn" destination="ZB9-lK-HOx" id="4UR-wn-Qgm"/>
+                <outlet property="playBtn" destination="T9M-8V-Ktg" id="RJz-ih-uIO"/>
+                <outlet property="songAlbumText" destination="yfe-Sa-HAs" id="Fd0-vh-gwf"/>
+                <outlet property="songCoverBtn" destination="I9N-5W-hBl" id="Kni-X5-8ZU"/>
+                <outlet property="songProgressBar" destination="X6s-et-IrE" id="ycp-G1-bUW"/>
+                <outlet property="songProgressTimer" destination="0A8-bn-t6K" id="Nbk-b9-jBn"/>
+                <outlet property="songTitleText" destination="Pp5-Wy-fcg" id="zgU-az-WEw"/>
+                <outlet property="trashBtn" destination="Fa6-9e-YSu" id="h6t-77-iqb"/>
+                <outlet property="window" destination="1" id="3"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="MoeFM" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="500" height="128"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1058"/>
+            <view key="contentView" id="2">
+                <rect key="frame" x="0.0" y="0.0" width="500" height="128"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <box autoresizesSubviews="NO" fixedFrame="YES" borderWidth="0.0" title="SongProgressBox" boxType="custom" borderType="none" translatesAutoresizingMaskIntoConstraints="NO" id="X6s-et-IrE" customClass="SongProgressBar">
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="10"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView">
+                            <rect key="frame" x="0.0" y="0.0" width="500" height="10"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </view>
+                        <color key="borderColor" red="0.41960787770000002" green="0.41960787770000002" blue="0.41960787770000002" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="fillColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                    </box>
+                    <box autoresizesSubviews="NO" verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="NYm-Xb-qIH">
+                        <rect key="frame" x="0.0" y="7" width="500" height="5"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <font key="titleFont" metaFont="system"/>
+                    </box>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pp5-Wy-fcg" customClass="ScrollTextView">
+                        <rect key="frame" x="116" y="96" width="384" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-Sa-HAs" customClass="ScrollTextView">
+                        <rect key="frame" x="116" y="73" width="384" height="24"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zcd-Nd-Fc1" customClass="ImageSwitchButton">
+                        <rect key="frame" x="122" y="13" width="54" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="btn_tofav" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="qsI-dE-a0h">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="clickFavBtn:" target="-2" id="6lk-Zd-BYf"/>
+                        </connections>
+                    </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T9M-8V-Ktg" customClass="ImageSwitchButton">
+                        <rect key="frame" x="184" y="13" width="54" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="btn_play" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="zCL-6n-CBZ">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="clickPlayBtn:" target="-2" id="C27-aI-wv9"/>
+                        </connections>
+                    </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fa6-9e-YSu" customClass="ImageSwitchButton">
+                        <rect key="frame" x="246" y="13" width="54" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="btn_totrash" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="5bM-Q9-Nw0">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="clickTrashBtn:" target="-2" id="cU0-RO-TO7"/>
+                        </connections>
+                    </button>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZB9-lK-HOx" customClass="ImageSwitchButton">
+                        <rect key="frame" x="308" y="13" width="54" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="btn_next" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="xqq-Nj-lTH">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="clickNextBtn:" target="-2" id="jiY-9t-7qO"/>
+                        </connections>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0A8-bn-t6K">
+                        <rect key="frame" x="368" y="13" width="128" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="-00:00" id="cSI-el-SMn">
+                            <font key="font" metaFont="system" size="36"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I9N-5W-hBl" customClass="SongCoverButton">
+                        <rect key="frame" x="0.0" y="13" width="115" height="115"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="logo_512" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Nqa-Lq-irp">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="4"/>
+            </connections>
+        </window>
+        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="0aG-vm-jlV">
+            <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="Drs-Et-YLM"/>
+        </imageView>
+    </objects>
+    <resources>
+        <image name="btn_next" width="48" height="48"/>
+        <image name="btn_play" width="48" height="48"/>
+        <image name="btn_tofav" width="48" height="48"/>
+        <image name="btn_totrash" width="48" height="48"/>
+        <image name="logo_512" width="512" height="512"/>
+    </resources>
+</document>

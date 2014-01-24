@@ -3,9 +3,6 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "-[PlayerViewController updateSongTimeSlider]:PlayerViewController.m">
-      </ContextState>
-      <ContextState
          contextName = "-[PlayerViewController playerItemDuration]:PlayerViewController.m">
       </ContextState>
       <ContextState
@@ -15,6 +12,32 @@
                value = "slider.doubleValue">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[HttpConnection connection:didFailWithError:]:HttpConnection.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[PlayerViewController updateSongTimeSlider]:PlayerViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[EasyNotification shouldUseNotification]:EasyNotification.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[[NSUserDefaults standardUserDefaults] boolForKey:@&quot;useNotification&quot;] == NSOnState">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[PlayerViewController clickTrashBtn:]:PlayerViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[MoefmPlayer delegatePerformOptionalSelector:]:MoefmPlayer.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[MoefmPlayer isFav]:MoefmPlayer.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[MoefmPlayer recvApiData:Error:]:MoefmPlayer.m">
       </ContextState>
    </ContextStates>
 </VariablesViewState>
