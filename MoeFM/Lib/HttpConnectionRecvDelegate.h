@@ -13,4 +13,7 @@
 @required
 - (void)recvData: (NSData*)data;
 
+@optional
+- (void)recvResponse: (NSURLResponse*)response;
+
 @end

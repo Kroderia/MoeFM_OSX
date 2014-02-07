@@ -16,6 +16,7 @@
 + (NSDictionary*)dictFrom: (NSData*)json;
 
 - (void)sendAsynchronousRequestTo: (NSString*)url delegate: (id)delegate;
+- (NSURLResponse*)sendSynchronousHeadRequestTo: (NSString*)url;
 
 @property (strong) NSMutableData *recvData;
 @property (weak) id<HttpConnectionRecvDelegate> delegate;

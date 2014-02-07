@@ -209,6 +209,7 @@ static MoefmPlayer *instance = nil;
 //==========================================
 // Get song time
 - (double)currentPlayTime {
+    [self test];
     return CMTimeGetSeconds(self.currentTime);
 }
 
@@ -275,6 +276,10 @@ static MoefmPlayer *instance = nil;
         }
     }
 }
+
+- (void)test {
+}
+
 
 @end
 

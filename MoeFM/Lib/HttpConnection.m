@@ -15,7 +15,7 @@
 + (NSData*)sendSynchronousRequestTo:(NSString *)url {
     NSURL *theUrl = [NSURL URLWithString:url];
     NSURLRequest *theRequest = [[NSURLRequest alloc] initWithURL:theUrl
-                                                     cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                     cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                  timeoutInterval:5.0f];
     NSData *recvData = [NSURLConnection sendSynchronousRequest:theRequest
                                              returningResponse:nil
@@ -23,15 +23,33 @@
     return recvData;
 }
 
-
 - (void)sendAsynchronousRequestTo:(NSString *)url delegate: (id)delegate {
-    self.delegate = delegate;
-
     NSURL *theUrl = [NSURL URLWithString:url];
     NSURLRequest *theRequest = [[NSURLRequest alloc] initWithURL:theUrl
-                                                     cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                     cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                  timeoutInterval:10.0f];
-    NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:theRequest
+    
+    [self createConnectionWithRequest:theRequest delegate:delegate];
+}
+
+- (NSURLResponse*)sendSynchronousHeadRequestTo: (NSString*)url {
+    NSURL *theUrl = [NSURL URLWithString:url];
+    NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:theUrl
+                                                              cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                          timeoutInterval:10.0f];
+    [theRequest setHTTPMethod:@"HEAD"];
+    [theRequest setValue:@"MacfmMp3PlayerUserAgent/1.0" forHTTPHeaderField:@"User-Agent"];
+    
+    NSURLResponse *result;
+    [NSURLConnection sendSynchronousRequest:theRequest
+                          returningResponse:&result
+                                      error:nil];
+    return result;
+}
+
+- (void)createConnectionWithRequest: (NSURLRequest*)request delegate: (id)delegate {
+    self.delegate = delegate;
+    NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:request
                                                                      delegate:self
                                                              startImmediately:YES];
     
@@ -79,9 +97,15 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     self.recvData = nil;
+    NSLog(@"%@", error);
     [self.delegate recvData:self.recvData];
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    if ([self.delegate respondsToSelector:@selector(recvResponse:)]) {
+        [self.delegate recvResponse:response];
+    }
+}
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     [self.delegate recvData:self.recvData];
