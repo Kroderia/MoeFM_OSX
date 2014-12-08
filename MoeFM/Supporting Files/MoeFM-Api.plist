@@ -13,12 +13,12 @@
 	<key>apiKey</key>
 	<string>5c3b588a4ad990ba5766d605d84b5786052a2028f</string>
 	<key>accessUrl</key>
-	<string>http://macfm.kroderia.im/api/access</string>
+	<string>http://moefm.kroderia.im/api/access</string>
 	<key>requestUrl</key>
-	<string>http://macfm.kroderia.im/api/request</string>
+	<string>http://moefm.kroderia.im/api/request</string>
 	<key>getUrl</key>
-	<string>http://macfm.kroderia.im/api/get</string>
+	<string>http://moefm.kroderia.im/api/get</string>
 	<key>ogetUrl</key>
-	<string>http://macfm.kroderia.im/api/oauthget</string>
+	<string>http://moefm.kroderia.im/api/oauthget</string>
 </dict>
 </plist>
