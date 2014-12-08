@@ -214,6 +214,9 @@ static MoefmPlayer *instance = nil;
 }
 
 - (double)currentLoadTime {
+    if (self.currentItem.loadedTimeRanges.count <= 0)
+        return 0.0;
+    
     CMTimeRange range = [[self.currentItem.loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
     double loadedtime = CMTimeGetSeconds(range.start) + CMTimeGetSeconds(range.duration);
     
