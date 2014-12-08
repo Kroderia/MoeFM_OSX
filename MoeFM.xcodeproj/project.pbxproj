@@ -32,12 +32,14 @@
 		F18BA1791871AB3700091D04 /* AboutPanelWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F18BA16E1871AB3700091D04 /* AboutPanelWindowController.xib */; };
 		F18BA17A1871AB3700091D04 /* LoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F18BA1701871AB3700091D04 /* LoginWindowController.m */; };
 		F18BA17B1871AB3700091D04 /* LoginWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F18BA1711871AB3700091D04 /* LoginWindowController.xib */; };
-		F18BA17C1871AB3700091D04 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F18BA1731871AB3700091D04 /* PlayerViewController.m */; };
-		F18BA17D1871AB3700091D04 /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F18BA1741871AB3700091D04 /* PlayerViewController.xib */; };
 		F18BA17E1871AB3700091D04 /* PreferencesPanelWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F18BA1761871AB3700091D04 /* PreferencesPanelWindowController.m */; };
 		F18BA17F1871AB3700091D04 /* PreferencesPanelWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F18BA1771871AB3700091D04 /* PreferencesPanelWindowController.xib */; };
 		F18BA1851871AB7C00091D04 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F18BA1811871AB7C00091D04 /* main.m */; };
 		F18BA1861871AB7C00091D04 /* MoeFM-Api.plist in Resources */ = {isa = PBXBuildFile; fileRef = F18BA1821871AB7C00091D04 /* MoeFM-Api.plist */; };
+		F19A21021A353BC0008443BF /* PlayerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F19A21001A353BC0008443BF /* PlayerWindowController.m */; };
+		F19A21031A353BC0008443BF /* PlayerWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F19A21011A353BC0008443BF /* PlayerWindowController.xib */; };
+		F19A21081A353BDD008443BF /* ImageSwitchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F19A21051A353BDD008443BF /* ImageSwitchButton.m */; };
+		F19A21091A353BDD008443BF /* SongCoverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F19A21071A353BDD008443BF /* SongCoverButton.m */; };
 		F1A1E7711866E1150067A071 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A1E7701866E1150067A071 /* CoreMedia.framework */; };
 		F1A1E773186700290067A071 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1A1E772186700290067A071 /* MainMenu.xib */; };
 		F1C9EC78186C8A61002F167F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1C9EC77186C8A61002F167F /* WebKit.framework */; };
@@ -100,9 +102,6 @@
 		F18BA16F1871AB3700091D04 /* LoginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginWindowController.h; sourceTree = "<group>"; };
 		F18BA1701871AB3700091D04 /* LoginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginWindowController.m; sourceTree = "<group>"; };
 		F18BA1711871AB3700091D04 /* LoginWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginWindowController.xib; sourceTree = "<group>"; };
-		F18BA1721871AB3700091D04 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
-		F18BA1731871AB3700091D04 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
-		F18BA1741871AB3700091D04 /* PlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		F18BA1751871AB3700091D04 /* PreferencesPanelWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesPanelWindowController.h; sourceTree = "<group>"; };
 		F18BA1761871AB3700091D04 /* PreferencesPanelWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesPanelWindowController.m; sourceTree = "<group>"; };
 		F18BA1771871AB3700091D04 /* PreferencesPanelWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesPanelWindowController.xib; sourceTree = "<group>"; };
@@ -110,6 +109,13 @@
 		F18BA1821871AB7C00091D04 /* MoeFM-Api.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MoeFM-Api.plist"; sourceTree = "<group>"; };
 		F18BA1831871AB7C00091D04 /* MoeFM-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MoeFM-Info.plist"; sourceTree = "<group>"; };
 		F18BA1841871AB7C00091D04 /* MoeFM-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MoeFM-Prefix.pch"; sourceTree = "<group>"; };
+		F19A20FF1A353BC0008443BF /* PlayerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerWindowController.h; sourceTree = "<group>"; };
+		F19A21001A353BC0008443BF /* PlayerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerWindowController.m; sourceTree = "<group>"; };
+		F19A21011A353BC0008443BF /* PlayerWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerWindowController.xib; sourceTree = "<group>"; };
+		F19A21041A353BDD008443BF /* ImageSwitchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageSwitchButton.h; sourceTree = "<group>"; };
+		F19A21051A353BDD008443BF /* ImageSwitchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageSwitchButton.m; sourceTree = "<group>"; };
+		F19A21061A353BDD008443BF /* SongCoverButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongCoverButton.h; sourceTree = "<group>"; };
+		F19A21071A353BDD008443BF /* SongCoverButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongCoverButton.m; sourceTree = "<group>"; };
 		F1A1E7701866E1150067A071 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		F1A1E772186700290067A071 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		F1C9EC77186C8A61002F167F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -177,6 +183,10 @@
 		F18BA1511871AAB700091D04 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				F19A21041A353BDD008443BF /* ImageSwitchButton.h */,
+				F19A21051A353BDD008443BF /* ImageSwitchButton.m */,
+				F19A21061A353BDD008443BF /* SongCoverButton.h */,
+				F19A21071A353BDD008443BF /* SongCoverButton.m */,
 				F18BA1521871AAB700091D04 /* ScrollTextView.h */,
 				F18BA1531871AAB700091D04 /* ScrollTextView.m */,
 				F18BA1541871AAB700091D04 /* SongProgressBar.h */,
@@ -208,15 +218,15 @@
 		F18BA16B1871AB3700091D04 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F19A20FF1A353BC0008443BF /* PlayerWindowController.h */,
+				F19A21001A353BC0008443BF /* PlayerWindowController.m */,
+				F19A21011A353BC0008443BF /* PlayerWindowController.xib */,
 				F18BA16C1871AB3700091D04 /* AboutPanelWindowController.h */,
 				F18BA16D1871AB3700091D04 /* AboutPanelWindowController.m */,
 				F18BA16E1871AB3700091D04 /* AboutPanelWindowController.xib */,
 				F18BA16F1871AB3700091D04 /* LoginWindowController.h */,
 				F18BA1701871AB3700091D04 /* LoginWindowController.m */,
 				F18BA1711871AB3700091D04 /* LoginWindowController.xib */,
-				F18BA1721871AB3700091D04 /* PlayerViewController.h */,
-				F18BA1731871AB3700091D04 /* PlayerViewController.m */,
-				F18BA1741871AB3700091D04 /* PlayerViewController.xib */,
 				F18BA1751871AB3700091D04 /* PreferencesPanelWindowController.h */,
 				F18BA1761871AB3700091D04 /* PreferencesPanelWindowController.m */,
 				F18BA1771871AB3700091D04 /* PreferencesPanelWindowController.xib */,
@@ -394,12 +404,12 @@
 				F1ED6135185F87CE002026F1 /* InfoPlist.strings in Resources */,
 				F161D9C81871B4EA0026B184 /* logo_256.png in Resources */,
 				F161D9C41871B4EA0026B184 /* logo_16.png in Resources */,
+				F19A21031A353BC0008443BF /* PlayerWindowController.xib in Resources */,
 				F1ED6143185F87CE002026F1 /* Images.xcassets in Resources */,
 				F18BA1651871AAED00091D04 /* btn_play.png in Resources */,
 				F161D9C91871B4EA0026B184 /* logo_512.png in Resources */,
 				F18BA1631871AAED00091D04 /* btn_next.png in Resources */,
 				F18BA1681871AAED00091D04 /* btn_trash.png in Resources */,
-				F18BA17D1871AB3700091D04 /* PlayerViewController.xib in Resources */,
 				F1A1E773186700290067A071 /* MainMenu.xib in Resources */,
 				F18BA1621871AAED00091D04 /* btn_fav.png in Resources */,
 				F18BA1861871AB7C00091D04 /* MoeFM-Api.plist in Resources */,
@@ -428,12 +438,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F18BA1851871AB7C00091D04 /* main.m in Sources */,
+				F19A21021A353BC0008443BF /* PlayerWindowController.m in Sources */,
 				F18BA14C1871AA6200091D04 /* MoefmApi.m in Sources */,
 				F1ED613E185F87CE002026F1 /* AppDelegate.m in Sources */,
 				F18BA17E1871AB3700091D04 /* PreferencesPanelWindowController.m in Sources */,
 				F18BA14B1871AA6200091D04 /* HttpConnection.m in Sources */,
 				F18BA1781871AB3700091D04 /* AboutPanelWindowController.m in Sources */,
-				F18BA17C1871AB3700091D04 /* PlayerViewController.m in Sources */,
+				F19A21081A353BDD008443BF /* ImageSwitchButton.m in Sources */,
+				F19A21091A353BDD008443BF /* SongCoverButton.m in Sources */,
 				F18BA14D1871AA6200091D04 /* MoefmPlayer.m in Sources */,
 				F18BA14E1871AA6200091D04 /* MoefmStatusItem.m in Sources */,
 				F18BA1561871AAB700091D04 /* ScrollTextView.m in Sources */,
